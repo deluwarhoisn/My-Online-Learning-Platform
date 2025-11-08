@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Navbar from '../Header/Navbar';
 
 const Register = () => {
 const RegisterSubmit = (e) => {
@@ -13,7 +14,9 @@ const RegisterSubmit = (e) => {
 }
 
     return (
+       
         <div>
+             <Navbar></Navbar>
           <div className="hero bg-base-200 min-h-screen">
   <div className="hero-content flex-col lg:flex-row-reverse">
     <div className="text-center lg:text-left">
