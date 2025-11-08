@@ -9,6 +9,8 @@ import Courses from './components/pages/Courses.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 import Home from './components/pages/Home.jsx';
 import Login from './components/Auth/Login.jsx';
+import ErrorPage from './components/Shared/ErrorPage.jsx';
+import Register from './components/Auth/Register.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,16 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>
+    
+  },
+  {
+    path: "/*",
+    element: <ErrorPage/>
+    
+  },
+  {
+    path: "/register",
+    element: <Register/>
     
   },
  

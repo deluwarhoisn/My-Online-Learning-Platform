@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../Header/Navbar';
+import { Link } from 'react-router';
 
 const Login = () => {
     const submitForm = (e) =>{
@@ -29,7 +30,7 @@ const Login = () => {
                                 <input type="password" name="password" className="input" placeholder="Password" />
                                 <div><a className="">Forgot password?</a></div>
                                 <button className="btn btn-neutral mt-4">Login</button>
-
+                                <p>Register now!  <span className='text-red-500'><Link to="/register"> Register</Link> </span></p>
                             </form>
                         </div>
                     </div>
