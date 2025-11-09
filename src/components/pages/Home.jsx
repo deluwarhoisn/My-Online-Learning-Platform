@@ -2,6 +2,9 @@ import React from 'react';
 import Navbar from '../Header/Navbar';
 import img from '../../assets/girl-with-laptop-.avif'
 import img2 from '../../assets/pngtree-woman-icon-set-png-image_11293623.png'
+import img3 from '../../assets/download.png'
+import img4 from '../../assets/download (33).png'
+
 import Footer from '../Footer/Footer';
 
 const Home = () => {
@@ -140,21 +143,21 @@ const Home = () => {
             <div><h1 className='text-start text-4xl font-bold pt-3'>Top Instructors</h1></div>
             <div className='flex justify-around pt-6'>
                 <div className='flex items-center'>
-                    <img className='w-[50px] h-[50px]' src={img2} alt="" />
+                    <img className='w-[50px] h-[50px] rounded-full' src={img2} alt="" />
                     <div className='text-[10px] font-bold'>
                         <h1>Alice Johnson</h1>
                     <p>Web Developer</p>
                     </div>
                 </div>
                 <div className='flex items-center'>
-                    <img className='w-[50px] h-[50px]' src={img2} alt="" />
+                    <img className='w-[50px] h-[50px] rounded-full' src={img3} alt="" />
                     <div className='text-[10px] font-bold'>
                         <h1>Alice Johnson</h1>
                     <p>Web Developer</p>
                     </div>
                 </div>
                 <div className='flex items-center'>
-                    <img className='w-[50px] h-[50px]' src={img2} alt="" />
+                    <img className='w-[50px] h-[50px] rounded-full' src={img4} alt="" />
                     <div className='text-[10px] font-bold'>
                         <h1>Alice Johnson</h1>
                     <p>Web Developer</p>

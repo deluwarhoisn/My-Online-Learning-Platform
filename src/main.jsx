@@ -11,49 +11,50 @@ import Home from './components/pages/Home.jsx';
 import Login from './components/Auth/Login.jsx';
 import ErrorPage from './components/Shared/ErrorPage.jsx';
 import Register from './components/Auth/Register.jsx';
+import AuthProvider from './components/Contexts/AuthProvider.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navbar/>
+    element: <Home />
   },
- 
+
   {
     path: "/home",
-    element: <Home/>
+    element: <Home />
   },
   {
     path: "/courses",
-    element: <Courses/>
+    element: <Courses />
   },
   {
     path: "/dashboard",
-    element: <Dashboard/>
-    
+    element: <Dashboard />
+
   },
   {
     path: "/login",
-    element: <Login/>
-    
+    element: <Login />
+
   },
   {
     path: "/*",
-    element: <ErrorPage/>
-    
+    element: <ErrorPage />
+
   },
   {
     path: "/register",
-    element: <Register/>
-    
+    element: <Register />
+
   },
- 
- 
+
+
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
- <RouterProvider router={router} />,
- 
-  <Outlet></Outlet>
+    <AuthProvider>
+      <RouterProvider router={router} />,
+    </AuthProvider>
   </StrictMode>,
 )
