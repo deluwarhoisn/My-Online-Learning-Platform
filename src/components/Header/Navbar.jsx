@@ -15,8 +15,7 @@ console.log(error);
  }
   const link = <>
     <li><Link to="/home">Home</Link></li>
-    <li><Link to="/courses">Courses</Link></li>
-
+    <li><Link to="/courses">My Courses</Link></li>
     {
       <li><Link to="/dashboard">Dashboard</Link></li>
     }
@@ -25,7 +24,7 @@ console.log(error);
   return (
     
    <section>
-    <div className='text-start w-11/12 mx-auto '>{user && user.email}</div>
+    <div className='text-start w-11/12 mx-auto   '>{user && user.email}</div>
      <div className='w-11/12 mx-auto'>
        
      

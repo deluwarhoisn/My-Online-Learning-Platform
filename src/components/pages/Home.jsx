@@ -6,8 +6,11 @@ import img3 from '../../assets/download.png'
 import img4 from '../../assets/download (33).png'
 
 import Footer from '../Footer/Footer';
+import { useLoaderData } from 'react-router';
 
 const Home = () => {
+    const data = useLoaderData()
+    console.log(data)
     return (
         <div>
             <Navbar></Navbar>
@@ -24,90 +27,24 @@ const Home = () => {
                 </div>
                 <div>
                     <h1 className='text-3xl'>Popular Courses</h1>
-                    <div className='grid grid-cols-3'>
-                        <div className="card bg-base-100 w-96 shadow-sm">
-                            <figure>
-                                <img
-                                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                    alt="Shoes" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">Card Title</h2>
-                                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-
-                            </div>
-                        </div>
-                        <div className="card bg-base-100 w-96 shadow-sm">
-                            <figure>
-                                <img
-                                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                    alt="Shoes" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">Card Title</h2>
-                                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                                <div className="card-actions justify-end">
-                                    <button className="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card bg-base-100 w-96 shadow-sm">
-                            <figure>
-                                <img
-                                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                    alt="Shoes" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">Card Title</h2>
-                                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                                <div className="card-actions justify-end">
-                                    <button className="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card bg-base-100 w-96 shadow-sm">
-                            <figure>
-                                <img
-                                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                    alt="Shoes" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">Card Title</h2>
-                                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                                <div className="card-actions justify-end">
-                                    <button className="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card bg-base-100 w-96 shadow-sm">
-                            <figure>
-                                <img
-                                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                    alt="Shoes" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">Card Title</h2>
-                                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                                <div className="card-actions justify-end">
-                                    <button className="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card bg-base-100 w-96 shadow-sm">
-                            <figure>
-                                <img
-                                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                    alt="Shoes" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">Card Title</h2>
-                                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                                <div className="card-actions justify-end">
-                                    <button className="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  <div className="grid md:grid-cols-3 gap-6 p-6">
+      {data.map((course, index) => (
+        <div key={index} className="card bg-base-100 shadow-sm">
+          <figure>
+            <img src={course.image} alt={course.title} className="h-56 w-full object-cover" />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">{course.title}</h2>
+            <p>{course.excerpt}</p>
+            <div className="card-actions justify-between items-center mt-3">
+              <span className="font-semibold text-primary">${course.price}</span>
+              <button className="btn btn-primary">View Details</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  
                 </div>
 
             </div>
@@ -119,6 +56,7 @@ const Home = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between max-w-5xl mx-auto gap-10">
 
                     <div className="md:w-1/2 text-gray-600 text-lg leading-relaxed">
+                    
                         <p>
                             We are dedicated to providing the best online learning experience with
                             expert instructors, interactive lessons, and flexible schedules to help

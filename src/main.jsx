@@ -12,6 +12,7 @@ import Login from './components/Auth/Login.jsx';
 import ErrorPage from './components/Shared/ErrorPage.jsx';
 import Register from './components/Auth/Register.jsx';
 import AuthProvider from './components/Contexts/AuthProvider.jsx';
+import PrivateRoute from './components/Layouts/PrivateRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,15 +22,16 @@ const router = createBrowserRouter([
 
   {
     path: "/home",
-    element: <Home />
+    element: <Home />,
+    loader:()=>fetch('http://localhost:3000/Online')
   },
   {
     path: "/courses",
-    element: <Courses />
+    element: <PrivateRoute><Courses /></PrivateRoute>
   },
   {
     path: "/dashboard",
-    element: <Dashboard />
+    element: <PrivateRoute><Dashboard /></PrivateRoute>
 
   },
   {
