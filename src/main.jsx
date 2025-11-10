@@ -13,6 +13,26 @@ import ErrorPage from './components/Shared/ErrorPage.jsx';
 import Register from './components/Auth/Register.jsx';
 import AuthProvider from './components/Contexts/AuthProvider.jsx';
 import PrivateRoute from './components/Layouts/PrivateRoute.jsx';
+import Details from './components/Details/Details.jsx';
+import AddCourse from './components/Courses/AddCourse.jsx';
+import MyEnrolledCourses from './components/Courses/MyEnrolledCourses.jsx';
+
+import Swal from 'sweetalert2'
+
+window.Swal = Swal;
+
+const Toast = Swal.mixin({
+  toast: true,
+  position:'top-end',
+  showCancelButton: false,
+  timer: 3000,
+  timerProgressBar:true,
+  didOpen: (toast)=>{
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+window.Toast = Toast;
 
 const router = createBrowserRouter([
   {
@@ -47,6 +67,21 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />
+
+  },
+  {
+    path: "/details",
+    element: <PrivateRoute><Details /></PrivateRoute>
+
+  },
+  {
+    path: "/AddCoursePage",
+    element: <PrivateRoute><AddCourse /></PrivateRoute>
+
+  },
+  {
+    path: "/Enrolled",
+    element: <PrivateRoute><MyEnrolledCourses /></PrivateRoute>
 
   },
 

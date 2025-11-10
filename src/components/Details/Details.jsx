@@ -1,13 +1,14 @@
 import React from 'react';
 import Navbar from '../Header/Navbar';
 
-const MyEnrolledCourses = () => {
+const Details = () => {
     return (
         <div>
             <Navbar></Navbar>
-            My Enrolled Course
-        </div>
+       View Details
+      </div>
+    
     );
 };
 
-export default MyEnrolledCourses;
+export default Details;

@@ -18,6 +18,10 @@ const Login = () => {
         .then(result=>{
             const user= result.user;
             console.log(user)
+            Toast.fire({
+                icon:'success',
+                title: 'signed in successfully'
+            })
         }).catch((error)=>{
             const errorCode =error.code;
             const errorMessage =error.errorMessage;
