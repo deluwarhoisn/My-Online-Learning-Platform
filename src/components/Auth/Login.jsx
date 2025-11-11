@@ -1,32 +1,48 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import Navbar from '../Header/Navbar';
 import { Link } from 'react-router';
 import { AuthContext } from '../Contexts/AuthProvider';
 import Swal from 'sweetalert2';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import googl from '../../assets/icons8-google-48.png'
+
+const googlProvider = new GoogleAuthProvider();
 
 const Login = () => {
-   const {signIn}= use(AuthContext);
+    const { signIn } = use(AuthContext);
 
-    const submitForm = (e) =>{
+    const [user, setUser] = useState(null)
+    const handelGooglSingIn = () => {
+        signInWithPopup(AuthContext, googlProvider)
+            .then(result => {
+                console.log(result.user)
+                setUser(result.user)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const submitForm = (e) => {
         e.preventDefault()
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log({email,password});
+        console.log({ email, password });
 
-        signIn(email,password)
-        .then(result=>{
-            const user= result.user;
-            console.log(user)
-            Toast.fire({
-                icon:'success',
-                title: 'signed in successfully'
+        signIn(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+                Toast.fire({
+                    icon: 'success',
+                    title: 'signed in successfully'
+                })
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.errorMessage;
+                alert(errorCode, errorMessage)
             })
-        }).catch((error)=>{
-            const errorCode =error.code;
-            const errorMessage =error.errorMessage;
-            alert(errorCode,errorMessage)
-        })
     }
     return (
         <div>
@@ -37,20 +53,54 @@ const Login = () => {
 
 
                     </div>
-                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                        <h1 className="text-5xl font-bold">Login now!</h1>
-                        <form onSubmit={submitForm} className="card-body">
-                            <fieldset  className="fieldset">
-                                <label className="label">Email</label>
-                                <input type="email" name="email" className="input" placeholder="Email" />
-                                <label className="label">Password</label>
-                                <input type="password" name="password" className="input" placeholder="Password" />
-                                <div><a className="">Forgot password?</a></div>
-                                <button className="btn btn-neutral mt-4">Login</button>
-                                <p>Dont't Have An Account?<span className='text-red-500'><Link to="/register"> Register</Link> </span></p>
-                            </fieldset>
-                        </form>
+                    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+                        <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8">
+                            <h1 className="text-4xl font-bold text-center mb-6 text-gray-800">Login Now!</h1>
+                            <form onSubmit={submitForm} className="space-y-4">
+                                <div>
+                                    <label className="block text-gray-700 mb-2 font-medium">Email</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="Enter your email"
+                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    />
+                                </div>
+                                <div className=''>
+                                    <label className="block text-gray-700 mb-2 font-medium">Password</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="Enter your password"
+                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    />
+                                </div>
+                                <div className="text-right">
+                                    <a href="#" className="text-blue-500 hover:underline text-sm">Forgot password?</a>
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors font-semibold"
+                                >
+                                    Login
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handelGooglSingIn}
+                                    className="w-full mt-2 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-2 transition-colors font-medium"
+                                >
+                                    <img src={googl} alt="Google" className="w-5 h-5" /> Sign in with Google
+                                </button>
+                                <p className="text-center text-gray-600 mt-4">
+                                    Don't have an account?
+                                    <Link to="/register" className="text-red-500 ml-1 hover:underline">Register</Link>
+                                </p>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
