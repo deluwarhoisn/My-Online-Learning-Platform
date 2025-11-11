@@ -8,7 +8,10 @@ const Navbar = () => {
   const { user, logOut } = use(AuthContext);
   const handleLogOut = () => {
     logOut().then(() => {
-      alert('You LogOut successfully')
+       Toast.fire({
+                icon:'success',
+                title: 'LogOut in successfully'
+            })
     }).catch((error) => {
       console.log(error);
     });
@@ -19,7 +22,7 @@ const Navbar = () => {
     
       <li><Link to="/dashboard">Dashboard</Link></li>
       <li><Link to="/AddCoursePage">Add Course</Link></li>
-      <li><Link to="/Enrolled">My Enrolled </Link></li>
+      <li><Link to="/enrollments">My Enrolled </Link></li>
     
   </>
 

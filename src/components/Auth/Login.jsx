@@ -2,7 +2,7 @@ import React, { use } from 'react';
 import Navbar from '../Header/Navbar';
 import { Link } from 'react-router';
 import { AuthContext } from '../Contexts/AuthProvider';
-
+import Swal from 'sweetalert2';
 
 const Login = () => {
    const {signIn}= use(AuthContext);

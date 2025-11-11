@@ -18,6 +18,7 @@ import AddCourse from './components/Courses/AddCourse.jsx';
 import MyEnrolledCourses from './components/Courses/MyEnrolledCourses.jsx';
 
 import Swal from 'sweetalert2'
+import MyCourses from './components/Courses/MyCourses.jsx';
 
 window.Swal = Swal;
 
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/courses",
-    element: <PrivateRoute><Courses /></PrivateRoute>
+    element: <PrivateRoute><MyCourses /></PrivateRoute>
   },
   {
     path: "/dashboard",
@@ -80,7 +81,7 @@ const router = createBrowserRouter([
 
   },
   {
-    path: "/Enrolled",
+    path: "/enrollments",
     element: <PrivateRoute><MyEnrolledCourses /></PrivateRoute>
 
   },
