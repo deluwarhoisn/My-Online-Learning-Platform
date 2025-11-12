@@ -1,16 +1,115 @@
-# React + Vite
+# 🎓 Online Learning Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Project ID: B12-A10_category-0011  
+### Video Link: B10-A10-C-0011  
+A **full-stack online learning platform** where users can explore, enroll, and manage courses seamlessly. Instructors can add, update, and manage their courses, while students can browse and enroll in courses of interest.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Links
 
-## React Compiler
+- 🌐 **Client Live Site:** [Your Netlify/Surge/Firebase URL Here](https://your-client-live-site.com)  
+- ⚙️ **Server Live (API) Link:** [Your Vercel Server URL Here](https://your-server.vercel.app)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧩 Key Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ **User Authentication**
+- Secure Login & Registration using Firebase (Email/Password + Google)
+- Toast notifications for success/error  
+- Protected Private Routes with persistent login  
+
+✅ **Instructor Dashboard**
+- Add, update, and delete courses  
+- Manage personal courses (“My Added Courses”)  
+- Auto-fill instructor info (name, email, photo)  
+
+✅ **Student Dashboard**
+- Enroll in courses  
+- View all enrolled courses (“My Enrolled Courses”)  
+- Smooth navigation with persistent state  
+
+✅ **Home Page Sections**
+- Hero/Banner section with animations  
+- Popular Courses (Featured 6)  
+- “Why Choose Us” and “Top Instructors” static sections  
+
+✅ **Dynamic Course Management**
+- Add Course form with image upload via **imgbb**  
+- View Course Details with “Enroll Now” button  
+- CRUD operations integrated with MongoDB  
+
+✅ **Additional Features**
+- Filtering by Category on All Courses page  
+- Loading spinner while fetching data  
+- 404 custom page  
+- Framer Motion & AOS animations  
+- Responsive design using Tailwind CSS  
+- Dark/Light mode toggle (optional)  
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|-----------|-------------|
+| **Frontend** | React.js, React Router, Axios / TanStack Query, Tailwind CSS, Framer Motion, AOS |
+| **Backend** | Node.js, Express.js, MongoDB |
+| **Authentication** | Firebase Auth (Email/Password + Google) |
+| **Hosting** | Netlify / Surge (Client), Vercel (Server) |
+| **Database** | MongoDB Atlas |
+| **Image Hosting** | imgbb |
+
+---
+
+## ⚙️ Core Functionalities
+
+### 👨‍🏫 Instructor
+- Add new course with title, image, price, duration, category, and description  
+- View and manage “My Added Courses”  
+- Update or delete courses easily  
+
+### 🎓 Student
+- Explore all available courses  
+- Filter by category  
+- View full course details  
+- Enroll in a course with a single click  
+- See all enrolled courses in “My Enrolled Courses”  
+
+---
+
+## 🔐 Authentication Flow
+
+| Action | Description |
+|--------|--------------|
+| **Register** | User signs up with name, email, password, photo URL |
+| **Login** | Email/Password or Google login |
+| **Protected Routes** | Only accessible when logged in |
+| **Password Validation** | Must include uppercase, lowercase, and at least 6 characters |
+
+---
+
+## 🧠 Advanced Features (Challenges)
+
+- Category-based filtering on “All Courses” page  
+- Dark/Light Theme toggle  
+- Framer Motion + AOS animations  
+- Loading Spinner while fetching data  
+- Responsive design for all devices  
+
+---
+
+## 💾 Database Collections
+
+**Database Name:** `onlineLearningDB`
+
+### Collections:
+- `courses`
+- `enrollments`
+- `users`
+
+---
+
+## 📁 Folder Structure (Client Side)
+

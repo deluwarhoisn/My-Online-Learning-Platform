@@ -1,79 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
 import Navbar from '../Header/Navbar';
-import toast, { Toaster } from 'react-hot-toast';
+import { AuthContext } from '../Contexts/AuthProvider';
 
-const Details = () => {
-  const { id } = useParams(); // course ID from URL
-  const [course, setCourse] = useState(null);
-  const [loading, setLoading] = useState(true);
+const MyCourses = () => {
+  const { user } = useContext(AuthContext);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
 
   useEffect(() => {
-    // Fetch course data from your API or mock data
-    fetch(`http://localhost:5000/courses/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCourse(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, [id]);
+    if (!user?.email) return;
 
-  const handleEnroll = () => {
-    // Here you can call your actual enrollment API
-    toast.success('Enrollment successful!');
-  };
-
-  if (loading) {
-    return (
-      <div>
-        <Navbar />
-        <div className="text-center mt-10 text-lg">Loading course details...</div>
-      </div>
-    );
-  }
-
-  if (!course) {
-    return (
-      <div>
-        <Navbar />
-        <div className="text-center mt-10 text-red-500 text-lg">
-          Course not found
-        </div>
-      </div>
-    );
-  }
+    fetch(`http://localhost:3000/enrollments?email=${user.email}`)
+      .then(res => res.json())
+      .then(data => setEnrolledCourses(data))
+      .catch(err => console.error(err));
+  }, [user]);
 
   return (
     <div>
       <Navbar />
-      <Toaster position="top-right" reverseOrder={false} />
-      <div className="max-w-4xl mx-auto mt-10 bg-white shadow-lg rounded-xl overflow-hidden">
-        <img
-          src={course.image}
-          alt={course.title}
-          className="w-full h-64 object-cover"
-        />
-        <div className="p-6">
-          <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-          <p className="text-gray-700 mb-4">{course.description}</p>
-          <div className="flex justify-between items-center mb-4">
-            <span className="font-semibold text-lg">Duration: {course.duration}</span>
-            <span className="font-semibold text-lg">Price: ${course.price}</span>
-          </div>
-          <button
-            onClick={handleEnroll}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-          >
-            Enroll Now
-          </button>
+      <div className="max-w-6xl mx-auto mt-10">
+        <h1 className="text-3xl font-bold mb-6 text-center">My Enrolled Courses</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {enrolledCourses.length === 0 ? (
+            <p className="text-center col-span-full text-red-500">You have not enrolled in any courses yet.</p>
+          ) : (
+            enrolledCourses.map(course => (
+              <div key={course._id} className="bg-white p-4 rounded-lg shadow-md">
+                <img src={course.image} alt={course.title} className="w-full h-40 object-cover rounded" />
+                <h2 className="text-xl font-bold mt-2">{course.title}</h2>
+                <p className="text-gray-600 mt-1">{course.description}</p>
+                <p className="mt-2 font-semibold">Duration: {course.duration}</p>
+                <p className="mt-1 font-semibold">Price: ${course.price}</p>
+                <p className="mt-1 text-sm text-gray-500">Enrolled At: {new Date(course.enrolledAt).toLocaleDateString()}</p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Details;
+export default MyCourses;

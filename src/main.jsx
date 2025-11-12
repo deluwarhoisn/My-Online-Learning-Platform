@@ -83,6 +83,8 @@ const router = createBrowserRouter([
   {
     path: "/enrollments",
     element: <PrivateRoute><MyEnrolledCourses /></PrivateRoute>
+    
+    
 
   },
 

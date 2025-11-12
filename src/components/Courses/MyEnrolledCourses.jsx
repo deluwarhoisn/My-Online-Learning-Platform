@@ -1,96 +1,72 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../Contexts/AuthProvider";
-import { Link } from "react-router-dom";
-import Navbar from "../Header/Navbar";
+import React, { useEffect, useState, useContext } from 'react';
+import Navbar from '../Header/Navbar';
+import { AuthContext } from '../Contexts/AuthProvider';
 
-const MyEnrollments = () => {
+const MyCourses = () => {
   const { user } = useContext(AuthContext);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user?.email) {
-      fetch(`http://localhost:3000/enrollments?email=${user.email}`)
-        .then((res) => res.json())
-        .then((data) => setEnrolledCourses(data))
-        .catch((err) => console.error(err));
-    }
-  }, [user?.email]);
+    if (!user?.email) return;
+
+    fetch(`http://localhost:3000/Online`)
+      .then(res => res.json())
+      .then(data => {
+        setEnrolledCourses(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div>
+        <Navbar />
+        <div className="text-center mt-10 text-lg">Loading your courses...</div>
+      </div>
+    );
+  }
 
   return (
-    <section>
-        <Navbar></Navbar>
-         <div className="max-w-7xl mx-auto p-6">
-        
-      <h2 className="text-3xl font-bold text-center mb-6">
-        My Enrolled Courses
-      </h2>
+    <div>
+      <Navbar />
+      <div className="max-w-6xl mx-auto mt-10">
+        <h1 className="text-3xl font-bold mb-6 text-center">🎓 Enrolled Courses</h1>
 
-      {enrolledCourses.length === 0 ? (
-        <p className="text-center text-gray-500">You haven’t enrolled in any courses yet.</p>
-      ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {enrolledCourses.map((course) => (
-            <div
-              key={course._id}
-              className="border rounded-2xl shadow-md hover:shadow-lg transition bg-white p-4 flex flex-col"
-            >
-              <img
-                src={course.image}
-                alt={course.title}
-                className="h-40 w-full object-cover rounded-lg mb-4"
-              />
-              <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
-              <p className="text-sm text-gray-600 mb-2">
-                <span className="font-medium">Category:</span> {course.category}
-              </p>
-              <p className="text-sm text-gray-600 mb-4">
-                <span className="font-medium">Duration:</span> {course.duration}
-              </p>
-              <Link
-                to={`/course/${course._id}`}
-                className="mt-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-center hover:bg-blue-700 transition"
+        {enrolledCourses.length === 0 ? (
+          <p className="text-center text-red-500 text-lg">
+            You have not enrolled in any courses yet.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {enrolledCourses.map((course) => (
+              <div
+                key={course._id}
+                className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition"
               >
-                View Details
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-full h-40 object-cover rounded-lg"
+                />
+                <h2 className="text-xl font-bold mt-3">{course.title}</h2>
+                <p className="text-gray-600 mt-1">{course.description}</p>
+                <p className="mt-2 font-semibold">Duration: {course.duration}</p>
+                <p className="font-semibold text-blue-600">Price: ${course.price}</p>
+                <p className="mt-2 text-sm text-gray-500">
+                  Enrolled At: {new Date(course.enrolledAt).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
-    <table className="w-full text-left border border-gray-300">
-  <thead className="bg-gray-100">
-    <tr>
-      <th className="p-3 border">Image</th>
-      <th className="p-3 border">Title</th>
-      <th className="p-3 border">Category</th>
-      <th className="p-3 border">Duration</th>
-      <th className="p-3 border">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {enrolledCourses.map((course) => (
-      <tr key={course._id} className="hover:bg-gray-50">
-        <td className="p-3 border">
-          <img src={course.image} alt={course.title} className="h-12 w-20 object-cover rounded" />
-        </td>
-        <td className="p-3 border">{course.title}</td>
-        <td className="p-3 border">{course.category}</td>
-        <td className="p-3 border">{course.duration}</td>
-        <td className="p-3 border">
-          <Link
-            to={`/course/${course._id}`}
-            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-          >
-            View
-          </Link>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
-    </section>
   );
 };
 
-export default MyEnrollments;
+export default MyCourses;
