@@ -18,7 +18,7 @@ const DashboardLayout = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Dashboard</h2>
         <nav className="flex flex-col space-y-3">
           <NavLink
-            to="/dashboard/enrolled"
+            to="/enrollments"
             className={({ isActive }) =>
               isActive ? "bg-blue-600 px-3 py-2 rounded" : "hover:bg-gray-700 px-3 py-2 rounded"
             }
@@ -27,7 +27,7 @@ const DashboardLayout = () => {
           </NavLink>
 
           <NavLink
-            to="/dashboard/add-course"
+            to="/AddCoursePage"
             className={({ isActive }) =>
               isActive ? "bg-blue-600 px-3 py-2 rounded" : "hover:bg-gray-700 px-3 py-2 rounded"
             }
@@ -36,7 +36,7 @@ const DashboardLayout = () => {
           </NavLink>
 
           <NavLink
-            to="/dashboard/my-courses"
+            to="/courses"
             className={({ isActive }) =>
               isActive ? "bg-blue-600 px-3 py-2 rounded" : "hover:bg-gray-700 px-3 py-2 rounded"
             }
@@ -53,11 +53,11 @@ const DashboardLayout = () => {
         </nav>
       </aside>
 
-      {/* Main Content */}
+     
       <main className="flex-1 bg-gray-100 p-6 overflow-y-auto">
-  {/* Content wrapper */}
+ 
   <div className="bg-white rounded-2xl shadow-md p-6 md:p-8 transition-all duration-300">
-    {/* Optional title bar */}
+   
     <header className="mb-6 border-b pb-3 flex items-center justify-between">
       <h1 className="text-2xl font-semibold text-gray-800">
         Dashboard Overview
@@ -67,7 +67,7 @@ const DashboardLayout = () => {
       </span>
     </header>
 
-    {/* Nested route content */}
+  
     <div className="min-h-[60vh]">
       <Outlet />
        {/* এখানে nested route এর content দেখাবে */}
