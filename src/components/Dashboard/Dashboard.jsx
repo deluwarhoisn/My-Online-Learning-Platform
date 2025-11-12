@@ -1,4 +1,4 @@
-// DashboardLayout.jsx
+
 import { Outlet, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../Contexts/AuthProvider";
@@ -13,7 +13,7 @@ const DashboardLayout = () => {
     <Navbar></Navbar>
       <div className="min-h-screen flex">
        
-      {/* Sidebar */}
+     
       <aside className="w-64  bg-gray-900  text-white p-6">
         <h2 className="text-2xl font-bold mb-6 text-center">Dashboard</h2>
         <nav className="flex flex-col space-y-3">
@@ -69,8 +69,7 @@ const DashboardLayout = () => {
 
   
     <div className="min-h-[60vh]">
-      <Outlet />
-       {/* এখানে nested route এর content দেখাবে */}
+    
     </div>
   </div>
 </main>
