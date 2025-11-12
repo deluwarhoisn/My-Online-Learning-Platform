@@ -10,7 +10,7 @@ const MyCourses = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:3000/Online`)
+    fetch(`https://online-learning-platfrom-server.vercel.app/Online`)
       .then(res => res.json())
       .then(data => {
         setEnrolledCourses(data);
