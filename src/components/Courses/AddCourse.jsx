@@ -18,7 +18,7 @@
         };
 
         try {
-        const res = await fetch("http://localhost:3000/Online", {
+        const res = await fetch("https://online-learning-platfrom-server.vercel.app/Online", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newCourse),

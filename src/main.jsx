@@ -44,7 +44,7 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />,
-    loader:()=>fetch('http://localhost:3000/Online')
+    loader:()=>fetch('https://online-learning-platfrom-server.vercel.app/Online')
   },
   {
     path: "/courses",
