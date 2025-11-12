@@ -8,8 +8,8 @@ A **full-stack online learning platform** where users can explore, enroll, and m
 
 ## 🚀 Live Links
 
-- 🌐 **Client Live Site:** [Your Netlify/Surge/Firebase URL Here](https://your-client-live-site.com)  
-- ⚙️ **Server Live (API) Link:** [Your Vercel Server URL Here](https://your-server.vercel.app)
+- 🌐 **Client Live Site:** [Your Netlify/Surge/Firebase URL Here](cheerful-brigadeiros-0acc0f.netlify.app)  
+- ⚙️ **Server Live (API) Link:** [Your Vercel Server URL Here](https://online-learning-platfrom-server.vercel.app)
 
 ---
 
