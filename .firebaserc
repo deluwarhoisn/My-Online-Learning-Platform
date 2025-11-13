@@ -1,1 +1,5 @@
-{}
+{
+  "projects": {
+    "default": "online-learning-platform-f7f28"
+  }
+}

@@ -1,22 +1,23 @@
-import React, { use, useState } from 'react';
+
 import Navbar from '../Header/Navbar';
 import { Link } from 'react-router';
 import { AuthContext } from '../Contexts/AuthProvider';
 import Swal from 'sweetalert2';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import googl from '../../assets/icons8-google-48.png'
+import { use } from 'react';
 
 const googlProvider = new GoogleAuthProvider();
 
 const Login = () => {
     const { signIn } = use(AuthContext);
 
-    const [user, setUser] = useState(null)
+    
     const handelGooglSingIn = () => {
         signInWithPopup(AuthContext, googlProvider)
             .then(result => {
                 console.log(result.user)
-                setUser(result.user)
+                
             })
             .catch(error => {
                 console.log(error)
@@ -103,6 +104,7 @@ const Login = () => {
 
                 </div>
             </div>
+            
         </div>
     );
 };
