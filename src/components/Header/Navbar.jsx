@@ -26,9 +26,9 @@ const Navbar = () => {
 
   return (
     <section className="w-full bg-base-100 shadow-sm">
-      <div className="text-sm text-end pr-5 py-1 text-gray-500">
+      {/* <div className="text-sm text-end pr-5 py-1 text-gray-500">
         {user && <span>Signed in as: <b>{user.email}</b></span>}
-      </div>
+      </div> */}
 
       <div className="navbar w-11/12 mx-auto">
         <div className="navbar-start">
