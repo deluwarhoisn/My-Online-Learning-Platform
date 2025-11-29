@@ -76,7 +76,7 @@ const Home = () => {
                         <p>
                             We are dedicated to providing the best online learning experience with
                             expert instructors, interactive lessons, and flexible schedules to help
-                            you achieve your goals at your own pace.
+                            you achieve your goals at your own pace . 
                         </p>
                     </div>
 
