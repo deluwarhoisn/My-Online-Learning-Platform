@@ -98,11 +98,6 @@ const DashboardLayout = ({ logOut, children }) => {
         </div>
       </main>
     </div>
- 
-
-
-
-
  </section>
   );
 };
