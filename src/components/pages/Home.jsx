@@ -8,6 +8,8 @@ import img4 from '../../assets/download (33).png'
 import Footer from '../Footer/Footer';
 import { Link, useLoaderData } from 'react-router';
 
+
+
 const Home = () => {
     const data = useLoaderData()
     console.log(data)

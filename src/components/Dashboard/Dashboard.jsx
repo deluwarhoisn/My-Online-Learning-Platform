@@ -2,8 +2,10 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Navbar from "../Header/Navbar";
 
+
 const DashboardLayout = ({ logOut, children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   return (
  <section>
@@ -96,7 +98,11 @@ const DashboardLayout = ({ logOut, children }) => {
         </div>
       </main>
     </div>
-  
+ 
+
+
+
+
  </section>
   );
 };
