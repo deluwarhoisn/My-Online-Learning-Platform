@@ -90,7 +90,7 @@ const DashboardLayout = ({ logOut, children }) => {
               Dashboard Overview
             </h1>
             <span className="text-sm text-gray-500 hidden md:block">
-              Welcome back 👋
+              Welcome back
             </span>
           </header>
 
