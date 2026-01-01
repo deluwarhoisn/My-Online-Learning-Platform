@@ -1,0 +1,153 @@
+/* Design tokens and global UI rules
+   - Max 3 primary colors: --primary-1, --primary-2, --primary-3
+   - Neutral palette
+   - Light/Dark mode support using [data-theme]
+   - Consistent spacing, radius, sizes
+   - Component primitives: .btn, .card, form controls, skeleton
+*/
+:root{
+  /* Primary palette (choose up to 3 shades) */
+  --primary-1: #2563eb; /* blue-600 */
+  --primary-2: #1e40af; /* blue-800 */
+  --primary-3: #60a5fa; /* blue-300 */
+
+  /* Neutral */
+  --neutral-900: #0f172a;
+  --neutral-700: #374151;
+  --neutral-500: #6b7280;
+  --neutral-300: #d1d5db;
+  --neutral-100: #f3f4f6;
+
+  /* Layout tokens */
+  --container-max-width: 1280px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --btn-height: 40px;
+  --card-padding: 16px;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"]{
+  --primary-1: #60a5fa;
+  --primary-2: #93c5fd;
+  --primary-3: #1e3a8a;
+
+  --neutral-900: #e6eef8;
+  --neutral-700: #cbd5e1;
+  --neutral-500: #94a3b8;
+  --neutral-300: #475569;
+  --neutral-100: #0b1220;
+}
+
+/* Container consistency */
+.app-container{
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
+}
+
+/* Cards */
+.card{
+  background: var(--neutral-100);
+  padding: var(--card-padding);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+}
+[data-theme="dark"] .card{
+  background: rgba(8,12,20,0.6);
+  box-shadow: 0 4px 14px rgba(2,6,23,0.4);
+}
+
+/* Buttons (consistent size, radius) */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--btn-height);
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+.btn:disabled{ opacity: .6; cursor: not-allowed }
+
+.btn-primary{
+  background: linear-gradient(180deg, var(--primary-1), var(--primary-2));
+  color: white;
+}
+.btn-secondary{
+  background: transparent;
+  color: var(--neutral-900);
+  border: 1px solid var(--neutral-300);
+}
+[data-theme="dark"] .btn-secondary{ color: var(--neutral-900); border-color: rgba(255,255,255,0.08) }
+
+/* Form controls */
+.input, .select, .textarea{
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--neutral-300);
+  background: transparent;
+  outline: none;
+}
+.input:focus, .select:focus, .textarea:focus{
+  border-color: var(--primary-1);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.06);
+}
+.form-error{
+  color: #dc2626; /* red-600 */
+  font-size: 0.875rem;
+}
+.form-success{
+  color: #16a34a; /* green-600 */
+  font-size: 0.875rem;
+}
+
+/* Skeleton / loader */
+.skeleton{
+  background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.06) 37%, rgba(0,0,0,0.04) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s linear infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes shimmer{ 0%{ background-position: 100% 0 } 100%{ background-position: -100% 0 } }
+
+/* Responsive rules (mobile-first) */
+.row{ display:flex; flex-wrap:wrap; gap:var(--space-md); }
+.col{ flex: 1 1 100%; }
+@media(min-width: 640px){ .col-sm-6{ flex: 1 1 calc(50% - var(--space-md)); } }
+@media(min-width: 1024px){ .col-lg-4{ flex: 1 1 calc(33.333% - var(--space-md)); } }
+
+/* Accessibility: prefer-reduced-motion respects */
+@media (prefers-reduced-motion: reduce){ *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important } }
+
+/* Utility small helpers */
+.text-muted{ color: var(--neutral-500); }
+.mb-2{ margin-bottom: var(--space-sm); }
+.mb-4{ margin-bottom: var(--space-md); }
+.p-4{ padding: var(--space-md); }
+.center{ display:flex; align-items:center; justify-content:center }
+
+/* Enforce professional visuals: no placeholder text color too light */
+input::placeholder{ color: var(--neutral-500); opacity: 1 }
+
+/* Limit number of primary colors used in components via classes */
+.primary-accent{ color: var(--primary-1) }
+.primary-bg{ background: var(--primary-1); color: white }
+
+/* Small breakpoint for touch targets */
+@media(max-width: 480px){
+  .btn{ height: 44px; font-size: 15px }
+}

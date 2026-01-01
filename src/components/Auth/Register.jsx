@@ -1,11 +1,11 @@
-import React, { use } from 'react';
-import { Link, useNavigate } from 'react-router';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Header/Navbar';
 import { AuthContext } from '../Contexts/AuthProvider';
 
 
 const Register = () => {
-  const { createUser, setUser, updateUser } = use(AuthContext);
+  const { createUser, setUser, updateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 

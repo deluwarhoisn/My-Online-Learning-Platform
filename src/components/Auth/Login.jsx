@@ -1,28 +1,14 @@
 
+import React, { useContext } from 'react';
 import Navbar from '../Header/Navbar';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Contexts/AuthProvider';
 import Swal from 'sweetalert2';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import googl from '../../assets/icons8-google-48.png'
-import { use } from 'react';
-
-const googlProvider = new GoogleAuthProvider();
+import toast from 'react-hot-toast';
 
 const Login = () => {
-    const { signIn } = use(AuthContext);
-
-    
-    const handelGooglSingIn = () => {
-        signInWithPopup(AuthContext, googlProvider)
-            .then(result => {
-                console.log(result.user)
-                
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+    const { signIn } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const submitForm = (e) => {
         e.preventDefault()
@@ -35,14 +21,12 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user)
-                Toast.fire({
-                    icon: 'success',
-                    title: 'signed in successfully'
-                })
+                toast.success('Signed in successfully');
+                navigate('/home');
             }).catch((error) => {
                 const errorCode = error.code;
-                const errorMessage = error.errorMessage;
-                alert(errorCode, errorMessage)
+                const errorMessage = error.message || error.errorMessage;
+                toast.error(errorMessage || errorCode);
             })
     }
     return (
@@ -87,13 +71,7 @@ const Login = () => {
                                 >
                                     Login
                                 </button>
-                                <button
-                                    type="button"
-                                    onClick={handelGooglSingIn}
-                                    className="w-full mt-2 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-100 flex items-center justify-center gap-2 transition-colors font-medium"
-                                >
-                                    <img src={googl} alt="Google" className="w-5 h-5" /> Sign in with Google
-                                </button>
+                                {/* Google sign-in removed */}
                                 <p className="text-center text-gray-600 mt-4">
                                     Don't have an account?
                                     <Link to="/register" className="text-red-500 ml-1 hover:underline">Register</Link>

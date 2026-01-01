@@ -7,6 +7,7 @@ import img4 from '../../assets/download (33).png'
 
 import Footer from '../Footer/Footer';
 import { Link, useLoaderData } from 'react-router';
+import CourseCard from '../Courses/CourseCard';
 
 
 
@@ -39,17 +40,17 @@ const Home = () => {
                 </div>
 
                 <div className="mt-10">
-                    <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-extrabold mb-6 text-gray-800">
                         Popular Courses
                     </h1>
 
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+                    <div className="grid sm:grid-cols-3 lg:grid-cols-4 gap-8 p-4 bg-gray-200 rounded-2xl ">
                         {data?.map((course, index) => (
-                            <div key={index} className="card bg-base-100 shadow-sm">
+                            <div key={index} className=" bg-base-100 shadow-sm rounded-lg overflow-hidden  ">
                                 <figure>
                                     <img src={course.image} alt={course.title} className="h-56 w-full object-cover" />
                                 </figure>
-                                <div className="card-body">
+                                <div className="card-body ">
                                     <h2 className="card-title">{course.title}</h2>
                                     <p>{course.excerpt}</p>
                                     <div className="card-actions justify-between items-center mt-3">
@@ -78,7 +79,7 @@ const Home = () => {
                         <p>
                             We are dedicated to providing the best online learning experience with
                             expert instructors, interactive lessons, and flexible schedules to help
-                            you achieve your goals at your own pace. 
+                            you achieve your goals at your own pace.
                         </p>
                     </div>
 
