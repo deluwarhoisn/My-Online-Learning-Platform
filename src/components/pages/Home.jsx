@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../Header/Navbar';
-import img from '../../assets/girl-with-laptop-.avif'
+import img from '../../assets/still-life-books-versus-technology_23-2150063081.avif'
 import img2 from '../../assets/pngtree-woman-icon-set-png-image_11293623.png'
 import img3 from '../../assets/download.png'
 import img4 from '../../assets/download (33).png'
@@ -19,32 +19,54 @@ const Home = () => {
             <Navbar></Navbar>
             <div className="w-11/12 mx-auto pt-6">
 
-                <div className="bg-blue-400 flex flex-col md:flex-row items-center justify-between rounded-2xl p-6 md:p-10">
-                    <div className="md:w-1/2 text-center md:text-left space-y-4">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
+                <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 p-6 md:p-12 flex flex-col md:flex-row items-center justify-between">
+
+                    {/* Left Content */}
+                    <div className="md:w-1/2 text-center md:text-left space-y-5 text-white">
+                        <span className="inline-block bg-white/20 px-4 py-1 rounded-full text-sm font-semibold tracking-wide">
+                            🚀 Start Learning
+                        </span>
+
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
                             Learn Something <br /> New Today
                         </h1>
-                        <p className="text-white text-base md:text-lg">
-                            Expand your knowledge with our comprehensive and engaging courses.
+
+                        <p className="text-base md:text-lg text-white/90 max-w-lg">
+                            Expand your knowledge with expertly crafted courses designed to help you
+                            grow faster and smarter.
                         </p>
-                        <button className="btn btn-primary rounded-2xl mt-4">Get Started</button>
+
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2">
+                            <button className="btn bg-white text-blue-600 hover:bg-gray-100 rounded-2xl px-8">
+                                Get Started
+                            </button>
+                            <button className="btn btn-outline border-white text-white hover:bg-white hover:text-blue-600 rounded-2xl px-8">
+                                Browse Courses
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="md:w-1/2 mt-6 md:mt-0">
+                    {/* Right Image */}
+                    <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center">
                         <img
-                            className="w-full max-w-md mx-auto rounded-lg drop-shadow-lg"
                             src={img}
                             alt="Learning Banner"
+                            className="w-full max-w-md rounded-2xl shadow-2xl transform hover:scale-105 transition duration-500"
                         />
                     </div>
+
+                    {/* Background Decoration */}
+                    <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                    <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
                 </div>
+
 
                 <div className="mt-10">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-extrabold mb-6 text-gray-800">
                         Popular Courses
                     </h1>
 
-                    <div className="grid sm:grid-cols-3 lg:grid-cols-4 gap-8 p-4 bg-gray-200 rounded-2xl ">
+                    <div className="grid sm:grid-cols-3 lg:grid-cols-4 gap-8 p-4 bg-[#bba9ec] rounded-2xl ">
                         {data?.map((course, index) => (
                             <div key={index} className=" bg-base-100 shadow-sm rounded-lg overflow-hidden  ">
                                 <figure>

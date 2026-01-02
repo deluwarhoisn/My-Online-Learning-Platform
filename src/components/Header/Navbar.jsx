@@ -5,6 +5,8 @@ import { AuthContext } from '../Contexts/AuthProvider';
 import usericon from '../../assets/icon.jpg';
 import toast from "react-hot-toast";
 import ThemeToggle from '../Shared/ThemeToggle';
+import { FaHome, FaBook, FaTachometerAlt, FaPlusCircle, FaUserGraduate } from "react-icons/fa";
+
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -19,14 +21,38 @@ const Navbar = () => {
 
   
 
-  const link = <>
-    <li><Link to="/home">Home</Link></li>
-    <li><Link to="/courses">My Courses</Link></li>
-    <li><Link to="/dashboard">Dashboard</Link></li>
-    <li><Link to="/AddCoursePage">Add Course</Link></li>
-    <li><Link to="/enrollments">My Enrolled </Link></li>
-   
-  </>
+ const link = <>
+  <li>
+    <Link to="/home" className="flex items-center gap-2">
+      <FaHome /> Home
+    </Link>
+  </li>
+
+  <li>
+    <Link to="/courses" className="flex items-center gap-2">
+      <FaBook /> My Courses
+    </Link>
+  </li>
+
+  <li>
+    <Link to="/dashboard" className="flex items-center gap-2">
+      <FaTachometerAlt /> Dashboard
+    </Link>
+  </li>
+
+  <li>
+    <Link to="/AddCoursePage" className="flex items-center gap-2">
+      <FaPlusCircle /> Add Course
+    </Link>
+  </li>
+
+  <li>
+    <Link to="/enrollments" className="flex items-center gap-2">
+      <FaUserGraduate /> My Enrolled
+    </Link>
+  </li>
+</>;
+
 
   return (
     <section className="w-full bg-base-100 shadow-sm">
