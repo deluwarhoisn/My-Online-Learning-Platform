@@ -1,15 +1,25 @@
-import React, { useContext } from 'react';
-import logo from '../../assets/online.png'
-import { Link } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../Contexts/AuthProvider';
-import usericon from '../../assets/icon.jpg';
-import toast from "react-hot-toast";
 import ThemeToggle from '../Shared/ThemeToggle';
-import { FaHome, FaBook, FaTachometerAlt, FaPlusCircle, FaUserGraduate } from "react-icons/fa";
-
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(true);
+  const location = useLocation();
+
+  // Handle screen size changes
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 768);
+    };
+    
+    handleResize(); // Check initial size
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLogOut = () => {
     logOut()
@@ -17,89 +27,220 @@ const Navbar = () => {
         toast.success('Logged out successfully!');
       })
       .catch((error) => console.log(error));
-  }
+  };
 
-  
-
- const link = <>
-  <li>
-    <Link to="/home" className="flex items-center gap-2">
-      <FaHome /> Home
-    </Link>
-  </li>
-
-  <li>
-    <Link to="/courses" className="flex items-center gap-2">
-      <FaBook /> My Courses
-    </Link>
-  </li>
-
-  <li>
-    <Link to="/dashboard" className="flex items-center gap-2">
-      <FaTachometerAlt /> Dashboard
-    </Link>
-  </li>
-
-  <li>
-    <Link to="/AddCoursePage" className="flex items-center gap-2">
-      <FaPlusCircle /> Add Course
-    </Link>
-  </li>
-
-  <li>
-    <Link to="/enrollments" className="flex items-center gap-2">
-      <FaUserGraduate /> My Enrolled
-    </Link>
-  </li>
-</>;
-
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <section className="w-full bg-base-100 shadow-sm">
-     
-      
-
-      <div className="navbar w-11/12 mx-auto">
-        <div className="navbar-start">
-          <div className="lg:hidden dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost  lg:hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-                   viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                      d="M4 6h16M4 12h8m-8 6h16"/>
-              </svg>
-            </div>
-            <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow">
-              {link}
-            </ul>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <img className="w-10 h-10 rounded-full" src={logo} alt="Logo"/>
-            <Link to="/" className="text-lg font-semibold">Online Learning</Link>
-          </div>
-        </div>
-
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{link}</ul>
-        </div>
-
-        <div className="navbar-end flex items-center gap-3">
+    <nav className="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           
-          <img className="w-10 h-10 rounded-full border" src={user ? user.photoURL : usericon} alt="User"/>
-          {user ? (
-            <button onClick={handleLogOut} className="btn btn-primary btn-sm rounded-2xl">
-              Log Out
-            </button>
-          ) : (
-            <Link to="/login" className="btn btn-primary btn-sm rounded-2xl">
-              Login
-            </Link>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3">
+            <img 
+              src="/src/assets/online.png" 
+              alt="EduPlatform" 
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <span className="text-xl font-bold text-blue-600">EduPlatform</span>
+          </Link>
+
+          {/* Desktop Navigation - Force show on large screens */}
+          {isLargeScreen && (
+            <div className="flex items-center gap-6">
+              <Link
+                to="/home"
+                className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                  isActive('/home') || isActive('/')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Home
+              </Link>
+              <Link
+                to="/courses"
+                className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                  isActive('/courses')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Courses
+              </Link>
+              <Link
+                to="/about"
+                className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                  isActive('/about')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                About
+              </Link>
+              <Link
+                to="/contact"
+                className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                  isActive('/contact')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Contact
+              </Link>
+              {user && (
+                <Link
+                  to="/dashboard"
+                  className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                    isActive('/dashboard')
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+              )}
+            </div>
           )}
-           <ThemeToggle></ThemeToggle>
+
+          {/* Right Side Actions */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+
+            {user ? (
+              <div className="flex items-center gap-3">
+                <img
+                  src={user.photoURL || '/src/assets/icon.jpg'}
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full object-cover border-2 border-blue-600"
+                />
+                {isLargeScreen && (
+                  <span className="font-medium text-gray-700">
+                    {user.displayName || 'User'}
+                  </span>
+                )}
+                <button
+                  onClick={handleLogOut}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/login"
+                  className="text-gray-700 hover:text-blue-600 font-medium"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Get Started
+                </Link>
+              </div>
+            )}
+
+            {/* Mobile Menu Toggle */}
+            {!isLargeScreen && (
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 rounded-lg hover:bg-gray-100"
+              >
+                {mobileMenuOpen ? '✕' : '☰'}
+              </button>
+            )}
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {!isLargeScreen && mobileMenuOpen && (
+          <div className="border-t border-gray-200 py-4">
+            <div className="space-y-2">
+              <Link
+                to="/home"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                  isActive('/home') || isActive('/')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Home
+              </Link>
+              <Link
+                to="/courses"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                  isActive('/courses')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Courses
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                  isActive('/about')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                About
+              </Link>
+              <Link
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                  isActive('/contact')
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Contact
+              </Link>
+              {user && (
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                    isActive('/dashboard')
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+              )}
+            </div>
+
+            {!user && (
+              <div className="mt-6 pt-4 border-t border-gray-200 space-y-3">
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                >
+                  Get Started Free
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-    </section>
+    </nav>
   );
 };
 

@@ -1,86 +1,187 @@
 import { useState, useContext } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../Header/Navbar";
 import { AuthContext } from "../Contexts/AuthProvider";
+import { 
+  FaTachometerAlt, 
+  FaUser, 
+  FaBook, 
+  FaPlusCircle, 
+  FaGraduationCap,
+  FaUsers,
+  FaSignOutAlt,
+  FaBars,
+  FaTimes
+} from "react-icons/fa";
 
-const DashboardLayout = () => {
-  const { user, logOut, role } = useContext(AuthContext); 
+const Dashboard = () => {
+  const { user, logOut } = useContext(AuthContext); 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const activeClass = "bg-blue-600 px-3 py-2 rounded";
-  const normalClass = "hover:bg-gray-700 px-3 py-2 rounded";
+  // Determine user role (you can enhance this based on your backend)
+  const userRole = user?.email?.includes('admin') ? 'admin' : 'user';
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      navigate('/home');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  const sidebarLinks = [
+    // User menu items (minimum 2)
+    {
+      to: "/dashboard",
+      icon: FaTachometerAlt,
+      label: "Dashboard Home",
+      end: true
+    },
+    {
+      to: "/dashboard/profile",
+      icon: FaUser,
+      label: "Profile"
+    },
+    {
+      to: "/dashboard/enrollments",
+      icon: FaGraduationCap,
+      label: "My Enrollments"
+    },
+    
+    // Admin menu items (minimum 3 if admin role)
+    ...(userRole === 'admin' ? [
+      {
+        to: "/dashboard/add-course",
+        icon: FaPlusCircle,
+        label: "Add Course"
+      },
+      {
+        to: "/dashboard/my-courses",
+        icon: FaBook,
+        label: "Manage Courses"
+      },
+      {
+        to: "/dashboard/manage-users",
+        icon: FaUsers,
+        label: "Manage Users"
+      }
+    ] : [])
+  ];
 
   return (
-    <section>
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <div className="min-h-screen flex flex-col md:flex-row">
-        {/* Mobile Header */}
-        <div className="md:hidden flex justify-between items-center bg-gray-900 text-white p-4">
-          <h2 className="text-xl font-bold">Dashboard</h2>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-            {sidebarOpen ? "✕" : "☰"}
-          </button>
-        </div>
-
-        {/* Sidebar */}
-        <aside
-          className={`fixed md:relative top-0 left-0 z-40 h-full w-64 bg-gray-900 text-white p-6 transform
-            ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-            md:translate-x-0 transition-transform duration-300`}
-        >
-          <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
-
-          <nav className="flex flex-col space-y-3">
-            {/* USER MENU */}
-            <NavLink to="/dashboard" end className={({isActive}) => isActive ? activeClass : normalClass}>
-              Dashboard Home
-            </NavLink>
-            <NavLink to="/dashboard/enrollments" className={({isActive}) => isActive ? activeClass : normalClass}>
-              My Enrolled Courses
-            </NavLink>
-
-            {/* ADMIN MENU */}
-            {role === "admin" && (
-              <>
-                <NavLink to="/dashboard/add-course" className={({isActive}) => isActive ? activeClass : normalClass}>
-                  Add Course
-                </NavLink>
-                <NavLink to="/dashboard/my-courses" className={({isActive}) => isActive ? activeClass : normalClass}>
-                  My Added Courses
-                </NavLink>
-                <NavLink to="/dashboard/manage-users" className={({isActive}) => isActive ? activeClass : normalClass}>
-                  Manage Users
-                </NavLink>
-              </>
-            )}
-
-            <button onClick={logOut} className="bg-red-500 hover:bg-red-600 mt-6 px-3 py-2 rounded text-left">
-              Logout
-            </button>
-          </nav>
-        </aside>
-
-        {/* Mobile Overlay */}
+      <div className="flex">
+        {/* Mobile Sidebar Overlay */}
         {sidebarOpen && (
-          <div className="fixed inset-0 bg-black opacity-50 z-30 md:hidden" onClick={() => setSidebarOpen(false)} />
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
         )}
 
-        {/* Main Content */}
-        <main className="flex-1 bg-gray-100 p-6 md:ml-64">
-          <div className="bg-white rounded-2xl shadow-md p-6">
-            <header className="mb-6 border-b pb-3 flex justify-between">
-              <h1 className="text-2xl font-semibold">Dashboard Overview</h1>
-              <span className="text-sm text-gray-500">{user?.email}</span>
-            </header>
+        {/* Sidebar */}
+        <aside className={`
+          fixed lg:static inset-y-0 left-0 z-50
+          w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          flex flex-col
+        `}>
+          
+          {/* Sidebar Header */}
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-800">Dashboard</h2>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="lg:hidden p-1 rounded-md hover:bg-gray-100"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            {/* User Info */}
+            <div className="mt-4 flex items-center gap-3">
+              <img
+                src={user?.photoURL || '/src/assets/icon.jpg'}
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {user?.displayName || 'User'}
+                </p>
+                <p className="text-xs text-gray-500 truncate">
+                  {userRole === 'admin' ? 'Administrator' : 'Student'}
+                </p>
+              </div>
+            </div>
+          </div>
 
-            {/* ✅ Nested routes render here */}
-            <Outlet />
+          {/* Navigation Links */}
+          <nav className="flex-1 p-4 space-y-2">
+            {sidebarLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={link.end}
+                onClick={() => setSidebarOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
+                    isActive
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
+                  }`
+                }
+              >
+                <link.icon className="text-lg" />
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="p-4 border-t border-gray-200">
+            <button
+              onClick={handleLogOut}
+              className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors"
+            >
+              <FaSignOutAlt />
+              Sign Out
+            </button>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 lg:ml-0">
+          
+          {/* Mobile Header */}
+          <div className="lg:hidden bg-white shadow-sm border-b border-gray-200 p-4">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="p-2 rounded-md hover:bg-gray-100"
+              >
+                <FaBars />
+              </button>
+              <h1 className="text-lg font-semibold">Dashboard</h1>
+              <div className="w-10"></div> {/* Spacer for centering */}
+            </div>
+          </div>
+
+          {/* Content Area */}
+          <div className="p-6">
+            <div className="max-w-7xl mx-auto">
+              <Outlet />
+            </div>
           </div>
         </main>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default DashboardLayout;
+export default Dashboard;
