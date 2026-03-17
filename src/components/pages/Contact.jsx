@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from '../Header/Navbar';
-import Footer from '../Footer/Footer';
 import toast from 'react-hot-toast';
 import { 
   FaEnvelope, 
@@ -128,8 +126,6 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-      
       {/* Hero Section */}
       <section className="section bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="app-container text-center">
@@ -359,7 +355,6 @@ const Contact = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

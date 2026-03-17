@@ -1,11 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, Outlet } from "react-router";
+import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import App from './App.jsx'
-import Navbar from './components/Header/Navbar.jsx';
-import Courses from './components/pages/Courses.jsx';
+import RootLayout from './components/Layouts/RootLayout.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 import Home from './components/pages/Home.jsx';
 import Login from './components/Auth/Login.jsx';
@@ -43,29 +41,52 @@ window.Toast = Toast;
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />
-  },
-  {
-    path: "/home",
-    element: <Home />,
-    loader:()=>fetch('https://online-learning-platfrom-server.vercel.app/Online')
-  },
-  {
-    path: "/about",
-    element: <About />
-  },
-  {
-    path: "/contact",
-    element: <Contact />
-  },
-  {
-    path: "/courses",
-    element: <AllCourses />,
-    loader:()=>fetch('https://online-learning-platfrom-server.vercel.app/Online')
-  },
-  {
-    path: "/my-courses",
-    element: <PrivateRoute><MyCourses /></PrivateRoute>
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
+      {
+        path: "home",
+        element: <Home />,
+        loader:()=>fetch('https://online-learning-platfrom-server.vercel.app/Online')
+      },
+      {
+        path: "about",
+        element: <About />
+      },
+      {
+        path: "contact",
+        element: <Contact />
+      },
+      {
+        path: "courses",
+        element: <AllCourses />,
+        loader:()=>fetch('https://online-learning-platfrom-server.vercel.app/Online')
+      },
+      {
+        path: "my-courses",
+        element: <PrivateRoute><MyCourses /></PrivateRoute>
+      },
+      {
+        path: "login",
+        element: <Login />
+      },
+      {
+        path: "register",
+        element: <Register />
+      },
+      {
+        path: "details/:id?",
+        element: <PrivateRoute><Details /></PrivateRoute>
+      },
+      {
+        path: "enrollments",
+        element: <PrivateRoute><MyEnrolledCourses /></PrivateRoute>
+      }
+    ]
   },
   {
     path: "/dashboard",
@@ -92,33 +113,13 @@ const router = createBrowserRouter([
         element: <MyCourses />
       }
     ]
-  },
-  {
-    path: "/login",
-    element: <Login />
-  },
-  {
-    path: "/register",
-    element: <Register />
-  },
-  {
-    path: "/details/:id?",
-    element: <PrivateRoute><Details /></PrivateRoute>
-  },
-  {
-    path: "/enrollments",
-    element: <PrivateRoute><MyEnrolledCourses /></PrivateRoute>
-  },
-  {
-    path: "/*",
-    element: <ErrorPage />
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />,
+      <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>,
 )

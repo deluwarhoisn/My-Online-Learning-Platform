@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../Header/Navbar';
-import Footer from '../Footer/Footer';
 import { Link, useLoaderData } from 'react-router';
 import { FaPlay, FaUsers, FaCertificate, FaClock, FaStar, FaArrowRight, FaQuoteLeft, FaCheck, FaGraduationCap, FaLaptop, FaMobile, FaHeadset } from 'react-icons/fa';
 
@@ -87,8 +85,6 @@ const Home = () => {
 
     return (
         <div className="min-h-screen">
-            <Navbar />
-            
             {/* 1. Hero Carousel Section */}
             <section className="relative h-[70vh] overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-purple-900/90 z-10"></div>
@@ -525,7 +521,6 @@ export default Home;
                 </div>
             </section>
 
-            <Footer />
         </div>
     );
 };

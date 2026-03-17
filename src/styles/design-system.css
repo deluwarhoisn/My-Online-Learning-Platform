@@ -448,25 +448,17 @@ nav.sticky{
 .gap-8{ gap: var(--space-xl); }
 
 /* Responsive utilities - Fixed for proper display */
-@media (max-width: 767px) {
-  .md\:hidden { display: none !important; }
-  .md\:flex { display: none !important; }
-}
-
-@media (min-width: 768px) {
-  .md\:hidden { display: none !important; }
-  .md\:flex { display: flex !important; }
-  .hidden { display: none !important; }
-}
-
 @media (max-width: 1023px) {
   .lg\:hidden { display: none !important; }
   .lg\:flex { display: none !important; }
+  .lg\:block { display: none !important; }
 }
 
 @media (min-width: 1024px) {
   .lg\:hidden { display: none !important; }
   .lg\:flex { display: flex !important; }
+  .lg\:block { display: block !important; }
+  .hidden { display: none !important; }
 }
 
 /* Button size variants */
@@ -565,6 +557,8 @@ nav.sticky{
 /* Width utilities */
 .w-full{ width: 100%; }
 .w-64{ width: 16rem; }
+.w-6{ width: 1.5rem; }
+.h-6{ height: 1.5rem; }
 
 /* Text alignment */
 .text-left{ text-align: left; }
@@ -575,3 +569,58 @@ nav.sticky{
 
 /* Overflow */
 .overflow-hidden{ overflow: hidden; }
+/* SVG stroke utilities */
+.stroke-current{ stroke: currentColor; }
+
+/* Additional responsive utilities */
+@media (max-width: 767px) {
+  .md\:hidden { display: none !important; }
+  .md\:flex { display: none !important; }
+  .md\:block { display: none !important; }
+}
+
+@media (min-width: 768px) {
+  .md\:hidden { display: none !important; }
+  .md\:flex { display: flex !important; }
+  .md\:block { display: block !important; }
+}
+
+/* Stroke width utilities */
+.stroke-2{ stroke-width: 2; }
+
+/* Line cap utilities */
+.stroke-linecap-round{ stroke-linecap: round; }
+.stroke-linejoin-round{ stroke-linejoin: round; }
+/* Mobile dropdown animations */
+.max-h-0 { max-height: 0; }
+.max-h-96 { max-height: 24rem; }
+
+/* Transform utilities for hamburger animation */
+.rotate-45 { transform: rotate(45deg); }
+.-rotate-45 { transform: rotate(-45deg); }
+.translate-y-1 { transform: translateY(0.25rem); }
+.-translate-y-1 { transform: translateY(-0.25rem); }
+
+/* Duration utilities */
+.duration-200 { transition-duration: 200ms; }
+.duration-300 { transition-duration: 300ms; }
+
+/* Opacity utilities */
+.opacity-0 { opacity: 0; }
+.opacity-100 { opacity: 1; }
+
+/* Additional spacing */
+.mt-1 { margin-top: 0.25rem; }
+
+/* Flex utilities */
+.flex-col { flex-direction: column; }
+.justify-center { justify-content: center; }
+.items-center { align-items: center; }
+
+/* Height utilities */
+.h-0\.5 { height: 0.125rem; }
+
+/* Background utilities */
+.bg-current { background-color: currentColor; }
+.bg-blue-50 { background-color: #eff6ff; }
+.bg-gray-50 { background-color: #f9fafb; }

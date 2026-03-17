@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Navbar from '../Header/Navbar';
 import { AuthContext } from '../Contexts/AuthProvider';
 import toast from 'react-hot-toast';
 import { FaEye, FaEyeSlash, FaGoogle, FaSpinner, FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
@@ -135,8 +134,6 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)] py-12 px-4">
         <div className="max-w-md w-full">
           

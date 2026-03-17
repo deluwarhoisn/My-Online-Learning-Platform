@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLoaderData, useSearchParams } from 'react-router-dom';
-import Navbar from '../Header/Navbar';
-import Footer from '../Footer/Footer';
 import { FaStar, FaClock, FaUsers, FaSearch, FaFilter, FaSort, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const AllCourses = () => {
@@ -131,8 +129,6 @@ const AllCourses = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-      
       {/* Header */}
       <section className="section bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="app-container text-center">
@@ -359,7 +355,6 @@ const AllCourses = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

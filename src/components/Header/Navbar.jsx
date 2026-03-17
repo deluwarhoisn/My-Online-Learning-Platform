@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../Contexts/AuthProvider';
 import ThemeToggle from '../Shared/ThemeToggle';
@@ -7,19 +7,7 @@ import toast from "react-hot-toast";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(true);
   const location = useLocation();
-
-  // Handle screen size changes
-  useEffect(() => {
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 768);
-    };
-    
-    handleResize(); // Check initial size
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleLogOut = () => {
     logOut()
@@ -38,71 +26,67 @@ const Navbar = () => {
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img 
-              src="/src/assets/online.png" 
-              alt="EduPlatform" 
-              className="w-10 h-10 rounded-full object-cover"
-            />
+            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+              <span className="text-white font-bold text-lg">E</span>
+            </div>
             <span className="text-xl font-bold text-blue-600">EduPlatform</span>
           </Link>
 
-          {/* Desktop Navigation - Force show on large screens */}
-          {isLargeScreen && (
-            <div className="flex items-center gap-6">
+          {/* Desktop Navigation - Always visible on large screens */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link
+              to="/home"
+              className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                isActive('/home') || isActive('/')
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/courses"
+              className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                isActive('/courses')
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Courses
+            </Link>
+            <Link
+              to="/about"
+              className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                isActive('/about')
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className={`px-3 py-2 rounded-lg font-medium transition-all ${
+                isActive('/contact')
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Contact
+            </Link>
+            {user && (
               <Link
-                to="/home"
+                to="/dashboard"
                 className={`px-3 py-2 rounded-lg font-medium transition-all ${
-                  isActive('/home') || isActive('/')
+                  isActive('/dashboard')
                     ? 'bg-blue-600 text-white'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                Home
+                Dashboard
               </Link>
-              <Link
-                to="/courses"
-                className={`px-3 py-2 rounded-lg font-medium transition-all ${
-                  isActive('/courses')
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                Courses
-              </Link>
-              <Link
-                to="/about"
-                className={`px-3 py-2 rounded-lg font-medium transition-all ${
-                  isActive('/about')
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                About
-              </Link>
-              <Link
-                to="/contact"
-                className={`px-3 py-2 rounded-lg font-medium transition-all ${
-                  isActive('/contact')
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                Contact
-              </Link>
-              {user && (
-                <Link
-                  to="/dashboard"
-                  className={`px-3 py-2 rounded-lg font-medium transition-all ${
-                    isActive('/dashboard')
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  Dashboard
-                </Link>
-              )}
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-4">
@@ -110,16 +94,22 @@ const Navbar = () => {
 
             {user ? (
               <div className="flex items-center gap-3">
-                <img
-                  src={user.photoURL || '/src/assets/icon.jpg'}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full object-cover border-2 border-blue-600"
-                />
-                {isLargeScreen && (
-                  <span className="font-medium text-gray-700">
-                    {user.displayName || 'User'}
-                  </span>
-                )}
+                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center border-2 border-blue-600">
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="Profile"
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-white text-sm font-medium">
+                      {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
+                    </span>
+                  )}
+                </div>
+                <span className="hidden md:block font-medium text-gray-700">
+                  {user.displayName || 'User'}
+                </span>
                 <button
                   onClick={handleLogOut}
                   className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
@@ -128,7 +118,7 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="hidden md:flex items-center gap-3">
                 <Link
                   to="/login"
                   className="text-gray-700 hover:text-blue-600 font-medium"
@@ -144,101 +134,156 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Mobile Menu Toggle */}
-            {!isLargeScreen && (
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-lg hover:bg-gray-100"
-              >
-                {mobileMenuOpen ? '✕' : '☰'}
-              </button>
-            )}
+            {/* Mobile Menu Toggle - Simple and reliable */}
+            <button
+              onClick={() => {
+                console.log('Mobile menu toggle clicked, current state:', mobileMenuOpen);
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-700 border border-gray-300"
+              aria-label="Toggle mobile menu"
+            >
+              {mobileMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {!isLargeScreen && mobileMenuOpen && (
-          <div className="border-t border-gray-200 py-4">
-            <div className="space-y-2">
+        {/* Debug info - remove this later */}
+        <div className="md:hidden text-xs text-red-500 px-4">
+          Mobile Menu State: {mobileMenuOpen ? 'OPEN' : 'CLOSED'}
+        </div>
+
+        {/* Mobile Menu - Simple dropdown that always renders but conditionally shows */}
+        <div className={`md:hidden transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? 'block' : 'hidden'
+        }`}>
+          <div className="border-t border-gray-200 py-4 bg-white shadow-lg">
+            <div className="space-y-1 px-2">
               <Link
                 to="/home"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
                   isActive('/home') || isActive('/')
                     ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                 }`}
               >
-                Home
+                <span>🏠</span>
+                <span>Home</span>
               </Link>
+              
               <Link
                 to="/courses"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
                   isActive('/courses')
                     ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                 }`}
               >
-                Courses
+                <span>📚</span>
+                <span>Courses</span>
               </Link>
+              
               <Link
                 to="/about"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
                   isActive('/about')
                     ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                 }`}
               >
-                About
+                <span>ℹ️</span>
+                <span>About</span>
               </Link>
+              
               <Link
                 to="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
                   isActive('/contact')
                     ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                 }`}
               >
-                Contact
+                <span>📞</span>
+                <span>Contact</span>
               </Link>
+              
               {user && (
                 <Link
                   to="/dashboard"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
                     isActive('/dashboard')
                       ? 'bg-blue-600 text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                   }`}
                 >
-                  Dashboard
+                  <span>📊</span>
+                  <span>Dashboard</span>
                 </Link>
               )}
             </div>
 
+            {/* Authentication buttons for non-logged in users */}
             {!user && (
-              <div className="mt-6 pt-4 border-t border-gray-200 space-y-3">
+              <div className="mt-4 pt-4 border-t border-gray-200 px-2 space-y-2">
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50"
+                  className="flex items-center justify-center gap-2 w-full border border-blue-600 text-blue-600 px-4 py-3 rounded-lg hover:bg-blue-50 font-medium"
                 >
-                  Sign In
+                  <span>🔑</span>
+                  <span>Sign In</span>
                 </Link>
                 <Link
                   to="/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  className="flex items-center justify-center gap-2 w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 font-medium"
                 >
-                  Get Started Free
+                  <span>🚀</span>
+                  <span>Get Started</span>
                 </Link>
               </div>
             )}
+
+            {/* User info and logout for logged in users */}
+            {user && (
+              <div className="mt-4 pt-4 border-t border-gray-200 px-2">
+                <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-lg mb-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium">
+                    {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">
+                      {user.displayName || 'User'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    handleLogOut();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-2 w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-medium"
+                >
+                  <span>🚪</span>
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
