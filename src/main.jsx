@@ -20,23 +20,7 @@ import Contact from './components/pages/Contact.jsx';
 import AllCourses from './components/Courses/AllCourses.jsx';
 import DashboardHome from './components/Dashboard/DashboardHome.jsx';
 import Profile from './components/Dashboard/Profile.jsx';
-
-import Swal from 'sweetalert2'
-
-window.Swal = Swal;
-
-const Toast = Swal.mixin({
-  toast: true,
-  position:'top-end',
-  showCancelButton: false,
-  timer: 3000,
-  timerProgressBar:true,
-  didOpen: (toast)=>{
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
-window.Toast = Toast;
+import UpdateCourse from './components/Courses/UpdateCourse.jsx';
 
 const router = createBrowserRouter([
   {
@@ -46,7 +30,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Home />,
+        loader:()=>fetch('https://online-learning-platfrom-server.vercel.app/Online')
       },
       {
         path: "home",
@@ -69,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "my-courses",
         element: <PrivateRoute><MyCourses /></PrivateRoute>
+      },
+      {
+        path: "update-course/:id",
+        element: <PrivateRoute><UpdateCourse /></PrivateRoute>
       },
       {
         path: "login",

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../Contexts/AuthProvider';
+import { AuthContext } from '../Contexts/AuthContext';
 import toast from 'react-hot-toast';
-import { FaEye, FaEyeSlash, FaGoogle, FaSpinner, FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaGoogle, FaSpinner, FaExclamationCircle } from 'react-icons/fa';
 
 const Login = () => {
     const { signIn, signInWithGoogle } = useContext(AuthContext);
@@ -17,12 +17,6 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
-
-    // Demo credentials
-    const demoCredentials = {
-        student: { email: 'student@demo.com', password: 'Demo123!' },
-        admin: { email: 'admin@demo.com', password: 'Admin123!' }
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -109,12 +103,6 @@ const Login = () => {
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const fillDemoCredentials = (type) => {
-        const credentials = demoCredentials[type];
-        setFormData(credentials);
-        setErrors({});
     };
 
     return (
@@ -214,14 +202,8 @@ const Login = () => {
                                 )}
                             </div>
 
-                            {/* Forgot Password */}
-                            <div className="text-right">
-                                <Link 
-                                    to="/forgot-password" 
-                                    className="text-sm text-primary-blue hover:underline"
-                                >
-                                    Forgot your password?
-                                </Link>
+                            <div className="text-right text-sm text-gray-500">
+                                Forgot password is disabled for assignment review.
                             </div>
 
                             {/* Submit Button */}

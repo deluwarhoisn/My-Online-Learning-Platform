@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../Header/Navbar";
-import { AuthContext } from "../Contexts/AuthProvider";
+import { AuthContext } from "../Contexts/AuthContext";
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
   FaFacebook, 
-  FaTwitter, 
   FaLinkedin, 
   FaInstagram, 
   FaYoutube,
@@ -12,6 +11,7 @@ import {
   FaGraduationCap,
   FaArrowRight
 } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -39,7 +39,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: FaFacebook, url: 'https://facebook.com/eduplatform', color: 'text-blue-600' },
-    { icon: FaTwitter, url: 'https://twitter.com/eduplatform', color: 'text-blue-400' },
+    { icon: FaXTwitter, url: 'https://x.com/eduplatform', color: 'text-gray-200' },
     { icon: FaLinkedin, url: 'https://linkedin.com/company/eduplatform', color: 'text-blue-700' },
     { icon: FaInstagram, url: 'https://instagram.com/eduplatform', color: 'text-pink-600' },
     { icon: FaYoutube, url: 'https://youtube.com/eduplatform', color: 'text-red-600' }
@@ -49,7 +49,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white">
       
       {/* Newsletter Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-12">
+      <div className="bg-linear-to-r from-blue-600 to-purple-600 py-12">
         <div className="app-container">
           <div className="text-center">
             <h3 className="text-2xl font-bold mb-4">Stay Updated with Our Latest Courses</h3>

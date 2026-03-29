@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { AuthContext } from "../Contexts/AuthProvider";
+import { AuthContext } from "../Contexts/AuthContext";
 import toast from "react-hot-toast";
 import { FaPlus, FaSpinner, FaImage, FaDollarSign, FaClock, FaTag, FaAlignLeft } from "react-icons/fa";
 
@@ -71,14 +71,14 @@ const AddCourse = () => {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Add New Course</h1>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <h1 className="text-2xl sm:text-3xl font-bold">Add New Course</h1>
                 <div className="text-sm text-gray-500">
                     Create a new course for students
                 </div>
             </div>
 
-            <div className="card max-w-4xl">
+            <div className="card max-w-4xl mx-auto">
                 <form onSubmit={handleAddCourse} className="space-y-6">
                     
                     {/* Course Title */}
@@ -230,7 +230,7 @@ const AddCourse = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="flex gap-4 pt-6 border-t border-gray-200">
+                    <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
                         <button
                             type="submit"
                             disabled={isLoading}
@@ -260,7 +260,7 @@ const AddCourse = () => {
                                 description: '',
                                 isFeatured: false
                             })}
-                            className="btn btn-secondary"
+                            className="btn btn-secondary w-full sm:w-auto"
                             disabled={isLoading}
                         >
                             Clear Form

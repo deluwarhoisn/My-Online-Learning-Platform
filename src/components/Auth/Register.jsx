@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../Contexts/AuthProvider';
+import { AuthContext } from '../Contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { FaEye, FaEyeSlash, FaGoogle, FaSpinner, FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
 
@@ -71,7 +71,7 @@ const Register = () => {
     try {
       new URL(string);
       return true;
-    } catch (_) {
+    } catch {
       return false;
     }
   };

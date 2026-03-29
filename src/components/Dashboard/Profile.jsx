@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../Contexts/AuthProvider';
+import { AuthContext } from '../Contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { 
   FaUser, 
@@ -128,25 +128,25 @@ const Profile = () => {
     <div className="space-y-8">
       
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Profile Settings</h1>
-          <p className="text-gray-600 mt-1">Manage your account information and preferences</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">Profile Settings</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">Manage your account information and preferences</p>
         </div>
         
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="btn btn-primary"
+            className="btn btn-primary w-full sm:w-auto"
           >
             <FaEdit className="mr-2" />
             Edit Profile
           </button>
         ) : (
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button
               onClick={handleCancel}
-              className="btn btn-secondary"
+              className="btn btn-secondary w-full sm:w-auto"
               disabled={isLoading}
             >
               <FaTimes className="mr-2" />
@@ -154,7 +154,7 @@ const Profile = () => {
             </button>
             <button
               onClick={handleSave}
-              className="btn btn-success"
+              className="btn btn-success w-full sm:w-auto"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -173,7 +173,7 @@ const Profile = () => {
         )}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
         
         {/* Profile Picture & Basic Info */}
         <div className="lg:col-span-1">
@@ -182,7 +182,7 @@ const Profile = () => {
               <img
                 src={profileData.photoURL || '/src/assets/icon.jpg'}
                 alt="Profile"
-                className="w-32 h-32 rounded-full object-cover mx-auto border-4 border-gray-200"
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover mx-auto border-4 border-gray-200"
               />
               {isEditing && (
                 <button className="absolute bottom-0 right-0 bg-primary-blue text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
@@ -191,11 +191,11 @@ const Profile = () => {
               )}
             </div>
             
-            <h2 className="text-2xl font-bold mb-2">{profileData.displayName || 'User'}</h2>
-            <p className="text-gray-600 mb-4">{profileData.email}</p>
+            <h2 className="text-xl sm:text-2xl font-bold mb-2 wrap-break-word">{profileData.displayName || 'User'}</h2>
+            <p className="text-gray-600 mb-4 break-all">{profileData.email}</p>
             
             {profileData.jobTitle && (
-              <div className="flex items-center justify-center gap-2 text-gray-600 mb-2">
+              <div className="flex flex-wrap items-center justify-center gap-2 text-gray-600 mb-2">
                 <FaBriefcase />
                 <span>{profileData.jobTitle}</span>
                 {profileData.company && <span>at {profileData.company}</span>}
@@ -203,7 +203,7 @@ const Profile = () => {
             )}
             
             {profileData.location && (
-              <div className="flex items-center justify-center gap-2 text-gray-600 mb-4">
+              <div className="flex flex-wrap items-center justify-center gap-2 text-gray-600 mb-4">
                 <FaMapMarkerAlt />
                 <span>{profileData.location}</span>
               </div>
@@ -219,7 +219,7 @@ const Profile = () => {
             <h3 className="text-lg font-bold mb-4">Skills</h3>
             
             {isEditing && (
-              <div className="flex gap-2 mb-4">
+              <div className="flex flex-col sm:flex-row gap-2 mb-4">
                 <input
                   type="text"
                   value={newSkill}
@@ -230,7 +230,7 @@ const Profile = () => {
                 />
                 <button
                   onClick={handleAddSkill}
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary btn-sm w-full sm:w-auto"
                 >
                   Add
                 </button>
@@ -469,50 +469,50 @@ const Profile = () => {
             <h3 className="text-xl font-bold mb-6">Preferences</h3>
             
             <div className="space-y-4">
-              <label className="flex items-center gap-3">
+              <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   name="preferences.emailNotifications"
                   checked={profileData.preferences.emailNotifications}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className="w-4 h-4 text-primary-blue"
+                  className="w-4 h-4 text-primary-blue mt-1 shrink-0"
                 />
                 <span>Email notifications for course updates</span>
               </label>
               
-              <label className="flex items-center gap-3">
+              <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   name="preferences.courseReminders"
                   checked={profileData.preferences.courseReminders}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className="w-4 h-4 text-primary-blue"
+                  className="w-4 h-4 text-primary-blue mt-1 shrink-0"
                 />
                 <span>Course deadline reminders</span>
               </label>
               
-              <label className="flex items-center gap-3">
+              <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   name="preferences.marketingEmails"
                   checked={profileData.preferences.marketingEmails}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className="w-4 h-4 text-primary-blue"
+                  className="w-4 h-4 text-primary-blue mt-1 shrink-0"
                 />
                 <span>Marketing emails and promotions</span>
               </label>
               
-              <label className="flex items-center gap-3">
+              <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   name="preferences.publicProfile"
                   checked={profileData.preferences.publicProfile}
                   onChange={handleInputChange}
                   disabled={!isEditing}
-                  className="w-4 h-4 text-primary-blue"
+                  className="w-4 h-4 text-primary-blue mt-1 shrink-0"
                 />
                 <span>Make my profile public</span>
               </label>

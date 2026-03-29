@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLoaderData, useSearchParams } from 'react-router-dom';
 import { FaStar, FaClock, FaUsers, FaSearch, FaFilter, FaSort, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
@@ -6,9 +6,9 @@ const AllCourses = () => {
   const data = useLoaderData();
   const [searchParams, setSearchParams] = useSearchParams();
   
-  const [courses, setCourses] = useState(data || []);
+  const courses = useMemo(() => data || [], [data]);
   const [filteredCourses, setFilteredCourses] = useState(data || []);
-  const [loading, setLoading] = useState(false);
+  const loading = false;
   
   // Search and filter states
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
@@ -132,8 +132,8 @@ const AllCourses = () => {
       {/* Header */}
       <section className="section bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="app-container text-center">
-          <h1 className="text-5xl font-bold mb-4">All Courses</h1>
-          <p className="text-xl max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4">All Courses</h1>
+          <p className="text-base md:text-xl max-w-2xl mx-auto">
             Discover our complete collection of expert-led courses designed to advance your career
           </p>
         </div>
@@ -193,7 +193,7 @@ const AllCourses = () => {
             </div>
 
             {/* Filter Summary */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="text-muted">
                 Showing {currentCourses.length} of {filteredCourses.length} courses
                 {searchTerm && ` for "${searchTerm}"`}
@@ -273,7 +273,7 @@ const AllCourses = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                       <div className="text-2xl font-bold text-primary-blue">
                         ${course.price}
                       </div>

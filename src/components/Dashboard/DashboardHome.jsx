@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../Contexts/AuthProvider';
-import { 
-  FaBook, 
-  FaUsers, 
-  FaCertificate, 
+import { AuthContext } from '../Contexts/AuthContext';
+import {
+  FaBook,
+  FaUsers,
+  FaCertificate,
   FaChartBar,
   FaCalendarAlt,
   FaClock,
@@ -31,6 +31,7 @@ import {
 
 const DashboardHome = () => {
   const { user } = useContext(AuthContext);
+  const [isMobile, setIsMobile] = useState(false);
   const [stats, setStats] = useState({
     totalCourses: 0,
     enrolledCourses: 0,
@@ -107,6 +108,16 @@ const DashboardHome = () => {
     ]);
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const handleMediaChange = (event) => setIsMobile(event.matches);
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    return () => mediaQuery.removeEventListener('change', handleMediaChange);
+  }, []);
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -115,33 +126,33 @@ const DashboardHome = () => {
   };
 
   return (
-    <div className="space-y-8">
-      
+    <div className="px-5 py-6 sm:px-6 sm:py-8">
+
       {/* Welcome Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
             {getGreeting()}, {user?.displayName || 'Learner'}! 👋
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-sm sm:text-base text-gray-600 mt-1">
             Ready to continue your learning journey today?
           </p>
         </div>
-        <div className="text-right">
+        <div className="text-left lg:text-right">
           <div className="text-sm text-gray-500">Today's Date</div>
-          <div className="font-semibold">
-            {new Date().toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+          <div className="font-semibold text-sm sm:text-base">
+            {new Date().toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
             })}
           </div>
         </div>
       </div>
 
       {/* Stats Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-4 sm:gap-6">
         <div className="card bg-gradient-to-r from-blue-500 to-blue-600 text-white">
           <div className="flex items-center justify-between">
             <div>
@@ -184,32 +195,35 @@ const DashboardHome = () => {
       </div>
 
       {/* Charts Row */}
-      <div className="grid lg:grid-cols-2 gap-8">
-        
+      <div className="grid 2xl:grid-cols-2 gap-6 sm:gap-8">
+
         {/* Monthly Progress Chart */}
         <div className="card">
-          <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+          <h3 className="text-lg sm:text-xl font-bold mb-6 flex items-center gap-2">
             <FaChartLine className="text-primary-blue" />
             Learning Progress (Last 6 Months)
           </h3>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={monthlyProgress}>
+            <LineChart
+              data={monthlyProgress}
+              margin={{ top: 8, right: isMobile ? 8 : 20, left: isMobile ? -20 : 0, bottom: 0 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
+              <XAxis dataKey="month" tick={{ fontSize: 12 }} />
               <YAxis />
               <Tooltip />
-              <Legend />
-              <Line 
-                type="monotone" 
-                dataKey="coursesCompleted" 
-                stroke="#3b82f6" 
+              {!isMobile && <Legend />}
+              <Line
+                type="monotone"
+                dataKey="coursesCompleted"
+                stroke="#3b82f6"
                 strokeWidth={3}
                 name="Courses Completed"
               />
-              <Line 
-                type="monotone" 
-                dataKey="hoursLearned" 
-                stroke="#10b981" 
+              <Line
+                type="monotone"
+                dataKey="hoursLearned"
+                stroke="#10b981"
                 strokeWidth={3}
                 name="Hours Learned"
               />
@@ -219,7 +233,7 @@ const DashboardHome = () => {
 
         {/* Category Distribution */}
         <div className="card">
-          <h3 className="text-xl font-bold mb-6">Learning Categories</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-6">Learning Categories</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -227,8 +241,8 @@ const DashboardHome = () => {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                outerRadius={80}
+                label={isMobile ? false : ({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                outerRadius={isMobile ? 70 : 80}
                 fill="#8884d8"
                 dataKey="value"
               >
@@ -244,19 +258,19 @@ const DashboardHome = () => {
 
       {/* Current Learning Progress */}
       <div className="card">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold">Current Learning Progress</h3>
-          <Link to="/dashboard/enrollments" className="btn btn-outline btn-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+          <h3 className="text-lg sm:text-xl font-bold">Current Learning Progress</h3>
+          <Link to="/dashboard/enrollments" className="btn btn-outline btn-sm w-full sm:w-auto">
             View All <FaArrowRight className="ml-1" />
           </Link>
         </div>
-        
+
         <div className="space-y-4">
           {learningProgress.map((course, index) => (
             <div key={index} className="border border-gray-200 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
                 <h4 className="font-semibold">{course.course}</h4>
-                <div className="flex items-center gap-4 text-sm text-gray-600">
+                <div className="flex items-center flex-wrap gap-3 text-sm text-gray-600">
                   <span className="flex items-center gap-1">
                     <FaClock />
                     {course.timeSpent}h
@@ -265,7 +279,7 @@ const DashboardHome = () => {
                 </div>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
+                <div
                   className="bg-primary-blue h-2 rounded-full transition-all duration-300"
                   style={{ width: `${course.progress}%` }}
                 ></div>
@@ -276,11 +290,11 @@ const DashboardHome = () => {
       </div>
 
       {/* Recent Activity & Quick Actions */}
-      <div className="grid lg:grid-cols-2 gap-8">
-        
+      <div className="grid 2xl:grid-cols-2 gap-6 sm:gap-8">
+
         {/* Recent Activity */}
         <div className="card">
-          <h3 className="text-xl font-bold mb-6">Recent Activity</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-6">Recent Activity</h3>
           <div className="space-y-4">
             {recentActivity.map((activity) => (
               <div key={activity.id} className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
@@ -301,10 +315,10 @@ const DashboardHome = () => {
 
         {/* Quick Actions */}
         <div className="card">
-          <h3 className="text-xl font-bold mb-6">Quick Actions</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <Link 
-              to="/courses" 
+          <h3 className="text-lg sm:text-xl font-bold mb-6">Quick Actions</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link
+              to="/courses"
               className="p-4 border border-gray-200 rounded-lg hover:border-primary-blue hover:bg-blue-50 transition-all text-center group"
             >
               <FaBook className="text-2xl text-primary-blue mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -312,8 +326,8 @@ const DashboardHome = () => {
               <div className="text-sm text-gray-600">Find new courses</div>
             </Link>
 
-            <Link 
-              to="/dashboard/enrollments" 
+            <Link
+              to="/dashboard/enrollments"
               className="p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-all text-center group"
             >
               <FaChartBar className="text-2xl text-green-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -321,8 +335,8 @@ const DashboardHome = () => {
               <div className="text-sm text-gray-600">Track learning</div>
             </Link>
 
-            <Link 
-              to="/dashboard/profile" 
+            <Link
+              to="/dashboard/profile"
               className="p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all text-center group"
             >
               <FaUsers className="text-2xl text-purple-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -330,8 +344,8 @@ const DashboardHome = () => {
               <div className="text-sm text-gray-600">Update settings</div>
             </Link>
 
-            <Link 
-              to="/dashboard/add-course" 
+            <Link
+              to="/dashboard/add-course"
               className="p-4 border border-gray-200 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-all text-center group"
             >
               <FaCertificate className="text-2xl text-orange-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -344,27 +358,27 @@ const DashboardHome = () => {
 
       {/* Achievements Section */}
       <div className="card bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200">
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
           <div className="text-4xl">🏆</div>
           <div>
-            <h3 className="text-xl font-bold text-yellow-800">Recent Achievements</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-yellow-800">Recent Achievements</h3>
             <p className="text-yellow-700">Celebrate your learning milestones!</p>
           </div>
         </div>
-        
-        <div className="grid md:grid-cols-3 gap-4">
+
+        <div className="grid sm:grid-cols-2 2xl:grid-cols-3 gap-4">
           <div className="bg-white rounded-lg p-4 border border-yellow-200">
             <div className="text-2xl mb-2">🎯</div>
             <div className="font-semibold">Course Completion Streak</div>
             <div className="text-sm text-gray-600">5 courses completed this month</div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-4 border border-yellow-200">
             <div className="text-2xl mb-2">⭐</div>
             <div className="font-semibold">Top Performer</div>
             <div className="text-sm text-gray-600">Ranked in top 10% of learners</div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-4 border border-yellow-200">
             <div className="text-2xl mb-2">📚</div>
             <div className="font-semibold">Knowledge Seeker</div>

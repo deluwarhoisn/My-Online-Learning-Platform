@@ -1,4 +1,4 @@
-# 🎓 Online Learning Platform
+# 🎓 EduPlatform - Online Learning Platform
 
 ### Project ID: B12-A10_category-0011  
 ### Video Link: B10-A10-C-0011  
@@ -8,7 +8,7 @@ A **full-stack online learning platform** where users can explore, enroll, and m
 
 ## 🚀 Live Links
 
-- 🌐 **Client Live Site:** [Your Netlify/Surge/Firebase URL Here](cheerful-brigadeiros-0acc0f.netlify.app)  
+- 🌐 **Client Live Site:** [EduPlatform Client](https://cheerful-brigadeiros-0acc0f.netlify.app)  
 - ⚙️ **Server Live (API) Link:** [Your Vercel Server URL Here](https://online-learning-platfrom-server.vercel.app)
 
 ---

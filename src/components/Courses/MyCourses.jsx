@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../Contexts/AuthProvider";
-import { Link } from "react-router-dom";
+import { AuthContext } from "../Contexts/AuthContext";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../Header/Navbar";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);
+  const { pathname } = useLocation();
   const [myCourses, setMyCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isDashboardRoute = pathname.startsWith("/dashboard");
 
   // Fetch courses added by the logged-in user
   useEffect(() => {
@@ -29,8 +32,17 @@ const MyCourses = () => {
   }, [user]);
 
   // Delete course
-  const handleDelete = (id) => {
-    if (!window.confirm("Are you sure you want to delete this course?")) return;
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Delete this course?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
 
     fetch(`https://online-learning-platfrom-server.vercel.app/Online/${id}`, {
       method: "DELETE",
@@ -52,18 +64,17 @@ const MyCourses = () => {
   }
 
   return (
-    <section className="min-h-screen">
-      <Navbar />
-      <Toaster />
-      <div className="container mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6 text-center">My Courses</h1>
+    <section className={isDashboardRoute ? "" : "min-h-screen"}>
+      {!isDashboardRoute && <Navbar />}
+      <div className="container mx-auto px-4 py-6 sm:px-6">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">My Courses</h1>
 
         {myCourses.length === 0 ? (
           <p className="text-center text-gray-500 mt-10 text-lg">
             You have not added any courses yet.
           </p>
         ) : (
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {myCourses.map((course) => (
               <div
                 key={course._id}
@@ -81,22 +92,22 @@ const MyCourses = () => {
                     <p className="text-gray-700 font-medium mb-4">💰 ${course.price}</p>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <Link
                       to={`/details/${course._id}`}
-                      className="btn btn-primary btn-sm flex-1"
+                      className="btn btn-primary btn-sm"
                     >
                       View
                     </Link>
                     <Link
                       to={`/update-course/${course._id}`}
-                      className="btn btn-warning btn-sm flex-1"
+                      className="btn btn-warning btn-sm"
                     >
                       Update
                     </Link>
                     <button
                       onClick={() => handleDelete(course._id)}
-                      className="btn btn-error btn-sm flex-1"
+                      className="btn btn-error btn-sm"
                     >
                       Delete
                     </button>

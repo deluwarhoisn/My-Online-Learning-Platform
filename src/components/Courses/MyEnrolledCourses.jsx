@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { AuthContext } from '../Contexts/AuthProvider';
+import { AuthContext } from '../Contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { FaStar, FaClock, FaPlay, FaCheckCircle, FaBook } from 'react-icons/fa';
 
@@ -69,8 +69,8 @@ const MyEnrolledCourses = () => {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">My Enrolled Courses</h1>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-2xl sm:text-3xl font-bold">My Enrolled Courses</h1>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -120,20 +120,20 @@ const MyEnrolledCourses = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">My Enrolled Courses</h1>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl sm:text-3xl font-bold">My Enrolled Courses</h1>
         <div className="text-sm text-gray-500">
           {enrolledCourses.length} course{enrolledCourses.length !== 1 ? 's' : ''} enrolled
         </div>
       </div>
 
       {/* Progress Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
         <div className="card bg-gradient-to-r from-blue-500 to-blue-600 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100 text-sm">Total Enrolled</p>
-              <p className="text-3xl font-bold">{enrolledCourses.length}</p>
+              <p className="text-2xl sm:text-3xl font-bold">{enrolledCourses.length}</p>
             </div>
             <FaBook className="text-4xl text-blue-200" />
           </div>
@@ -143,7 +143,7 @@ const MyEnrolledCourses = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100 text-sm">Completed</p>
-              <p className="text-3xl font-bold">
+              <p className="text-2xl sm:text-3xl font-bold">
                 {enrolledCourses.filter(course => course.progress === 100).length}
               </p>
             </div>
@@ -155,7 +155,7 @@ const MyEnrolledCourses = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100 text-sm">Avg Progress</p>
-              <p className="text-3xl font-bold">
+              <p className="text-2xl sm:text-3xl font-bold">
                 {Math.round(enrolledCourses.reduce((acc, course) => acc + course.progress, 0) / enrolledCourses.length)}%
               </p>
             </div>
@@ -165,7 +165,7 @@ const MyEnrolledCourses = () => {
       </div>
 
       {/* Courses Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {enrolledCourses.map((course) => (
           <div key={course._id} className="card hover:shadow-xl transition-all duration-300">
             <div className="relative">
@@ -188,10 +188,10 @@ const MyEnrolledCourses = () => {
             
             <div className="space-y-4">
               <div>
-                <h3 className="text-xl font-bold mb-2">{course.title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold mb-2">{course.title}</h3>
                 <p className="text-gray-600 text-sm mb-3">{course.description}</p>
                 
-                <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-3">
                   <div className="flex items-center gap-1">
                     <FaStar className="text-yellow-500" />
                     <span>{course.rating}</span>
@@ -221,13 +221,13 @@ const MyEnrolledCourses = () => {
                 </div>
               </div>
               
-              <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t border-gray-200">
                 <div className="text-sm text-gray-500">
                   Enrolled: {new Date(course.enrolledAt).toLocaleDateString()}
                 </div>
                 <Link 
                   to={`/course/${course._id}`}
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary btn-sm w-full sm:w-auto"
                 >
                   {course.progress === 100 ? 'Review' : 'Continue'}
                 </Link>

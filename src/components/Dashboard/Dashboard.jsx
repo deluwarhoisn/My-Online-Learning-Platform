@@ -1,26 +1,30 @@
 import { useState, useContext } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../Header/Navbar";
-import { AuthContext } from "../Contexts/AuthProvider";
+import { AuthContext } from "../Contexts/AuthContext";
 import { 
   FaTachometerAlt, 
   FaUser, 
   FaBook, 
   FaPlusCircle, 
   FaGraduationCap,
-  FaUsers,
   FaSignOutAlt,
   FaBars,
   FaTimes
 } from "react-icons/fa";
+
+const ADMIN_EMAILS = ["babuhossen301@gmail.com"];
 
 const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext); 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Determine user role (you can enhance this based on your backend)
-  const userRole = user?.email?.includes('admin') ? 'admin' : 'user';
+  const normalizedEmail = user?.email?.toLowerCase() || "";
+  const userRole =
+    ADMIN_EMAILS.includes(normalizedEmail) || normalizedEmail.includes("admin")
+      ? "admin"
+      : "user";
 
   const handleLogOut = async () => {
     try {
@@ -50,22 +54,21 @@ const Dashboard = () => {
       label: "My Enrollments"
     },
     
-    // Admin menu items (minimum 3 if admin role)
+    {
+      to: "/dashboard/add-course",
+      icon: FaPlusCircle,
+      label: "Add Course"
+    },
+    {
+      to: "/dashboard/my-courses",
+      icon: FaBook,
+      label: "My Added Courses"
+    },
     ...(userRole === 'admin' ? [
       {
-        to: "/dashboard/add-course",
-        icon: FaPlusCircle,
-        label: "Add Course"
-      },
-      {
-        to: "/dashboard/my-courses",
+        to: "/courses",
         icon: FaBook,
-        label: "Manage Courses"
-      },
-      {
-        to: "/dashboard/manage-users",
-        icon: FaUsers,
-        label: "Manage Users"
+        label: "All Courses"
       }
     ] : [])
   ];
@@ -78,14 +81,14 @@ const Dashboard = () => {
         {/* Mobile Sidebar Overlay */}
         {sidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            className="fixed top-16 inset-x-0 bottom-0 bg-black bg-opacity-50 z-40 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
         {/* Sidebar */}
         <aside className={`
-          fixed lg:static inset-y-0 left-0 z-50
+          fixed lg:sticky top-16 left-0 z-50 h-[calc(100vh-4rem)]
           w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           flex flex-col
@@ -173,7 +176,7 @@ const Dashboard = () => {
           </div>
 
           {/* Content Area */}
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
               <Outlet />
             </div>

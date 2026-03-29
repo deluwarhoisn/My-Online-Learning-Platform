@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import app from "../services/firebase.config";
 import {
   createUserWithEmailAndPassword,
@@ -11,8 +11,8 @@ import {
   signInWithPopup
 } from "firebase/auth";
 import toast from "react-hot-toast";
+import { AuthContext } from "./AuthContext";
 
-export const AuthContext = createContext();
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
@@ -76,7 +76,7 @@ const AuthProvider = ({ children }) => {
     try {
       await signOut(auth);
       toast.success("Logged out!");
-    } catch (err) {
+    } catch {
       toast.error("Logout failed");
     } finally {
       setLoading(false);

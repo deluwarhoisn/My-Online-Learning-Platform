@@ -120,7 +120,7 @@ body{
 
 /* Cards - consistent across all components */
 .card{
-  background: var(--bg-primary);
+  background-color: var(--bg-primary);
   padding: var(--card-padding);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
@@ -132,7 +132,7 @@ body{
   transform: translateY(-2px);
 }
 [data-theme="dark"] .card{
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   border-color: var(--neutral-300);
 }
 

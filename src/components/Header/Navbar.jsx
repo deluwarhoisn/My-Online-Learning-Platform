@@ -1,8 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AuthContext } from '../Contexts/AuthProvider';
+import { AuthContext } from '../Contexts/AuthContext';
 import ThemeToggle from '../Shared/ThemeToggle';
-import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -11,9 +10,6 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     logOut()
-      .then(() => {
-        toast.success('Logged out successfully!');
-      })
       .catch((error) => console.log(error));
   };
 
@@ -89,11 +85,11 @@ const Navbar = () => {
           </div>
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <ThemeToggle />
 
             {user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center border-2 border-blue-600">
                   {user.photoURL ? (
                     <img
@@ -112,7 +108,7 @@ const Navbar = () => {
                 </span>
                 <button
                   onClick={handleLogOut}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                  className="hidden md:inline-flex bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
                 >
                   Logout
                 </button>
@@ -137,7 +133,6 @@ const Navbar = () => {
             {/* Mobile Menu Toggle - Simple and reliable */}
             <button
               onClick={() => {
-                console.log('Mobile menu toggle clicked, current state:', mobileMenuOpen);
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
               className="md:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-700 border border-gray-300"
@@ -156,12 +151,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Debug info - remove this later */}
-        <div className="md:hidden text-xs text-red-500 px-4">
-          Mobile Menu State: {mobileMenuOpen ? 'OPEN' : 'CLOSED'}
-        </div>
-
-        {/* Mobile Menu - Simple dropdown that always renders but conditionally shows */}
+        {/* Mobile Menu */}
         <div className={`md:hidden transition-all duration-300 ease-in-out ${
           mobileMenuOpen ? 'block' : 'hidden'
         }`}>
